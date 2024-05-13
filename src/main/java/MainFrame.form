@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainFrame">
+  <grid id="27dc6" binding="MainFrame" layout-manager="FormLayout">
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:2dlu:noGrow"/>
+    <rowspec value="center:d:noGrow"/>
+    <rowspec value="top:6dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:13dlu:noGrow"/>
+    <rowspec value="center:34px:noGrow"/>
+    <rowspec value="top:13dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:10dlu:noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <rowspec value="top:13dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:13dlu:noGrow"/>
+    <rowspec value="center:34px:noGrow"/>
+    <rowspec value="top:36dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:16px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:150px:grow"/>
+    <colspec value="left:16dlu:noGrow"/>
+    <colspec value="fill:150px:noGrow"/>
+    <colspec value="left:16dlu:noGrow"/>
+    <colspec value="fill:150px:grow"/>
+    <colspec value="left:16dlu:noGrow"/>
+    <colspec value="fill:150px:noGrow"/>
+    <colspec value="left:12dlu:noGrow"/>
+    <constraints>
+      <xy x="20" y="20" width="744" height="486"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="f06e8" class="javax.swing.JLabel" binding="ProgrammeName">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="8" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="MazeSolver"/>
+        </properties>
+      </component>
+      <component id="addab" class="javax.swing.JLabel" binding="ColourInfo">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="8" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Select the colours below to choose a colour from the palette. "/>
+        </properties>
+      </component>
+      <component id="7153d" class="javax.swing.JTextArea" binding="BCText">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <text value="Background Color"/>
+        </properties>
+      </component>
+      <component id="3b743" class="javax.swing.JTextArea" binding="MCText">
+        <constraints>
+          <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <text value="Maze Color"/>
+        </properties>
+      </component>
+      <component id="b44" class="javax.swing.JTextArea" binding="SCText">
+        <constraints>
+          <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <text value="Solve Color"/>
+        </properties>
+      </component>
+      <component id="49060" class="javax.swing.JTextField" binding="BCField">
+        <constraints>
+          <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="30a24" class="javax.swing.JTextField" binding="MCField">
+        <constraints>
+          <grid row="12" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="7b0cf" class="javax.swing.JTextField" binding="SCField">
+        <constraints>
+          <grid row="14" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="4a0fb" class="javax.swing.JButton" binding="BCPalette">
+        <constraints>
+          <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="BCPalette"/>
+        </properties>
+      </component>
+      <component id="237a7" class="javax.swing.JButton" binding="MCPalette">
+        <constraints>
+          <grid row="12" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="MCPalette"/>
+        </properties>
+      </component>
+      <component id="a9ca7" class="javax.swing.JButton" binding="SCPalette">
+        <constraints>
+          <grid row="14" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="SCPalette"/>
+        </properties>
+      </component>
+      <component id="574fc" class="javax.swing.JButton" binding="ShowMaze">
+        <constraints>
+          <grid row="18" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Show Maze"/>
+        </properties>
+      </component>
+      <component id="54396" class="javax.swing.JButton" binding="SolveMaze">
+        <constraints>
+          <grid row="18" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Solve Maze"/>
+        </properties>
+      </component>
+      <component id="886f0" class="javax.swing.JButton" binding="UploadText">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Text file "/>
+        </properties>
+      </component>
+      <component id="3e765" class="javax.swing.JButton" binding="UploadBin">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Bin file"/>
+        </properties>
+      </component>
+      <component id="5db3" class="javax.swing.JButton" binding="downloadMaze">
+        <constraints>
+          <grid row="18" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Download maze"/>
+        </properties>
+      </component>
+      <component id="fdc78" class="javax.swing.JButton" binding="downloadSolved">
+        <constraints>
+          <grid row="18" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Download solved"/>
+        </properties>
+      </component>
+      <component id="c9be4" class="javax.swing.JButton" binding="ChangeP">
+        <constraints>
+          <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Change entrance"/>
+        </properties>
+      </component>
+      <component id="af785" class="javax.swing.JButton" binding="ChangeK">
+        <constraints>
+          <grid row="16" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Change exit"/>
+        </properties>
+      </component>
+      <component id="42283" class="javax.swing.JTextArea" binding="howToUseATextArea" default-binding="true">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="7" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <background color="-1118482"/>
+          <text value="/* how to use a programme*/&#10;// można dodać info o arlorytmach (link na wiki)&#10;// link na github"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
