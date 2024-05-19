@@ -1,8 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Maze {
     private char[][] maze;
-    private char[][] path;
+    private List<Coordinates> path;
     Coordinates entrance;
     Coordinates exit;
+
+    char charBeforeChangeEntrace = 'X';
+    char charBeforeChangeExit = 'X';
 
     Loader loader;
     Solver solver;
@@ -10,43 +16,36 @@ public class Maze {
         loader = new Loader();
         solver = new Solver();
     }
+
     public void load(){
+
         if (loader.containsPath()){
             maze = loader.loadMaze();
-
         }
         else {
             maze = loader.loadMaze();
             path = loader.loadPath();
+            entrance = new Coordinates().getPositionOfLetter(maze, 'P');
+            exit = new Coordinates().getPositionOfLetter(maze, 'K');
+            new Coordinates().stripMazeOfLetter(maze, 'P');
+            new Coordinates().stripMazeOfLetter(maze, 'K');
+
+            System.out.println("Entrance: " + entrance.x + " " + entrance.y);
+            System.out.println("Exit: " + exit.x + " " + exit.y);
+
+
+//            //print maze
+//            for (int i = 0; i < maze.length; i++) {
+//                for (int j = 0; j < maze[i].length; j++) {
+//                    System.out.print(maze[i][j]);
+//                }
+//                System.out.println();
+//            }
+
         }
     }
     public void solve(){
-        // will have something here
+        solver.solve(maze, entrance, exit);
     }
 }
-class Coordinates {
-    int x, y;
 
-    public Coordinates getPositionOfLetter(char[][] maze, char letter){
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[i].length; j++) {
-                if (maze[i][j] == letter){
-                    x = i;
-                    y = j;
-                    return new Coordinates();
-                }
-            }
-        }
-        return null;
-    }
-    public Coordinates stripMazeOfLetter(char[][] maze, char letter){
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[i].length; j++) {
-                if (maze[i][j] == letter){
-                    maze[i][j] = ' ';
-                }
-            }
-        }
-        return new Coordinates();
-    }
-}

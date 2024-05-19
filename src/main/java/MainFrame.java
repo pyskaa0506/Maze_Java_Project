@@ -73,11 +73,6 @@ public class MainFrame {
         });
 
         howToUseATextArea.setEditable(false);
-
-
-
-
-
     }
 
 }

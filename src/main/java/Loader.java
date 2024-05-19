@@ -20,10 +20,10 @@ public class Loader {
         return MazeMatrix;
     }
 
-    public char[][] loadPath() {
+    public List<Coordinates> loadPath() {
         //method not implemented yet, should return path in Maze.load() if binary file contains path
         //everything under this comment is a placeholder
-        return new char[0][0];
+        return new ArrayList<>();
     }
 
     public Boolean containsPath() {
