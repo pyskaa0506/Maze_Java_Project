@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Maze {
@@ -6,10 +5,6 @@ public class Maze {
     private List<Coordinates> path;
     Coordinates entrance;
     Coordinates exit;
-
-    char charBeforeChangeEntrace = 'X';
-    char charBeforeChangeExit = 'X';
-
     Loader loader;
     Solver solver;
     Maze(){
@@ -32,20 +27,23 @@ public class Maze {
 
             System.out.println("Entrance: " + entrance.x + " " + entrance.y);
             System.out.println("Exit: " + exit.x + " " + exit.y);
-
-
-//            //print maze
-//            for (int i = 0; i < maze.length; i++) {
-//                for (int j = 0; j < maze[i].length; j++) {
-//                    System.out.print(maze[i][j]);
-//                }
-//                System.out.println();
-//            }
-
         }
     }
     public void solve(){
-        solver.solve(maze, entrance, exit);
+        path = solver.solve(maze, entrance, exit);
+    }
+    public void printPath(){
+        for (Coordinates c : path){
+            System.out.println(c.x + " " + c.y);
+        }
+    }
+    public void printMaze(){
+        for (char[] chars : maze) {
+            for (char aChar : chars) {
+                System.out.print(aChar);
+            }
+            System.out.println();
+        }
     }
 }
 

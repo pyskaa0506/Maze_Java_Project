@@ -4,23 +4,48 @@ import java.util.List;
 public class Solver {
     private int[][] maze_tmp;
     private final List<Coordinates> possibleMoves = new ArrayList<>();
-    private List<Coordinates> path = new ArrayList<>();
+    private final List<Coordinates> pathReversed = new ArrayList<>();
+    private final List<Coordinates> path = new ArrayList<>();
 
-
-    Solver(){
-    }
     public List<Coordinates> solve(char[][] maze, Coordinates entrance, Coordinates exit){
 
         transformMazeCharToInt(maze);
         dijkstra(entrance, exit);
+        backtracking(entrance, exit);
+        reversePath();
 
-
-        //placeholder
         return path;
+    }
+
+    private void reversePath(){
+        for (int i = pathReversed.size() - 1; i >= 0; i--) {
+            path.add(pathReversed.get(i));
+        }
     }
 
     private void backtracking(Coordinates entrance, Coordinates exit){
         //come back here and implement backtracking
+        int x = exit.x;
+        int y = exit.y;
+        pathReversed.add(new Coordinates(x, y));
+        while (x != entrance.x || y != entrance.y){
+            if (x - 1 >= 0 && maze_tmp[x - 1][y] == maze_tmp[x][y] - 1){
+                pathReversed.add(new Coordinates(x - 1, y));
+                x--;
+            }
+            else if (x + 1 < maze_tmp.length && maze_tmp[x + 1][y] == maze_tmp[x][y] - 1){
+                pathReversed.add(new Coordinates(x + 1, y));
+                x++;
+            }
+            else if (y - 1 >= 0 && maze_tmp[x][y - 1] == maze_tmp[x][y] - 1){
+                pathReversed.add(new Coordinates(x, y - 1));
+                y--;
+            }
+            else if (y + 1 < maze_tmp[x].length && maze_tmp[x][y + 1] == maze_tmp[x][y] - 1){
+                pathReversed.add(new Coordinates(x, y + 1));
+                y++;
+            }
+        }
     }
 
     private void dijkstra(Coordinates entrance, Coordinates exit){
@@ -60,7 +85,6 @@ public class Solver {
                 maze_tmp[x][y + 1] = maze_tmp[x][y] + 1;
                 possibleMoves.add(new Coordinates(x, y + 1));
             }
-            printRefresh();
         }
     }
     private Coordinates findSmallestInPossibleMoves(){
@@ -88,24 +112,24 @@ private void transformMazeCharToInt(char[][] maze){
     }
 
 
-    private void printRefresh(){
-        //clear console
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        printMaze();
-    }
-    private void printPossibleMoves(){
-        for (int i = 0; i < possibleMoves.size(); i++) {
-            System.out.println(possibleMoves.get(i).x + " " + possibleMoves.get(i).y);
-        }
-    }
-    private void printMaze(){
-        for (int i = 0; i < maze_tmp.length; i++) {
-            for (int j = 0; j < maze_tmp[i].length; j++) {
-                System.out.print(maze_tmp[i][j]);
-            }
-            System.out.println();
-        }
-    }
+//    private void printRefresh(){
+//        //clear console
+//        System.out.print("\033[H\033[2J");
+//        System.out.flush();
+//        printMaze();
+//    }
+//    private void printPossibleMoves(){
+//        for (Coordinates possibleMove : possibleMoves) {
+//            System.out.println(possibleMove.x + " " + possibleMove.y);
+//        }
+//    }
+//    private void printMaze(){
+//        for (int[] ints : maze_tmp) {
+//            for (int anInt : ints) {
+//                System.out.print(anInt);
+//            }
+//            System.out.println();
+//        }
+//    }
 }
 
