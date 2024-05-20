@@ -9,12 +9,20 @@ public class Solver {
 
     public List<Coordinates> solve(char[][] maze, Coordinates entrance, Coordinates exit){
 
+        restart();
         transformMazeCharToInt(maze);
         dijkstra(entrance, exit);
         backtracking(entrance, exit);
         reversePath();
 
         return path;
+    }
+
+    private void restart(){
+        maze_tmp = null;
+        possibleMoves.clear();
+        pathReversed.clear();
+        path.clear();
     }
 
     private void reversePath(){

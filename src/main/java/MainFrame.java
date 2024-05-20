@@ -30,7 +30,7 @@ public class MainFrame {
     private Maze maze;
 
     MainFrame(){
-        maze = new Maze();
+         maze = new Maze();
 
         UploadText.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser(".");
@@ -39,9 +39,8 @@ public class MainFrame {
             int response = fileChooser.showOpenDialog(null);
             if (response == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                Loader loader = new Loader();
                 String filepath = file.getAbsolutePath();
-                boolean isBinary = loader.isBinary(filepath);
+                boolean isBinary = Loader.isBinary(filepath); //changed isBinary to static, so it can be called without creating an instance of Loader
                 String fileType = isBinary ? "binary" : "text";
 
                 if (isBinary || filepath.endsWith(".txt")) {

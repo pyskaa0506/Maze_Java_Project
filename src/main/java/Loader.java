@@ -7,18 +7,21 @@ import java.util.List;
 // feel free to change argument usage if needed
 public class Loader {
     private char[][] MazeMatrix;
-    //private String filepath = "src/main/resources/5x5.txt";
 
-    // to bin files: should return maze with entrance and exit (P and K should be included)
     public char[][] loadMaze(String filepath)
     {
         if (isBinary(filepath)) {
-            // Implement binary file reading logic here
-            // Example: return loadBinaryMaze(filepath);
+            this.MazeMatrix = loadBinaryMaze(filepath);
         } else {
             this.MazeMatrix = convertToCharMatrix(loadFile(filepath));
         }
         return MazeMatrix;
+    }
+
+    private char[][] loadBinaryMaze(String filepath) {
+        //method not implemented yet, should return maze with entrance and exit (P and K should be included)
+        //everything under this comment is a placeholder
+        return new char[0][];
     }
 
     public List<Coordinates> loadPath() {
@@ -57,7 +60,7 @@ public class Loader {
         return MazeMatrix;
     }
 
-    public boolean isBinary(String filepath){
+    public static boolean isBinary(String filepath){
         try(InputStream inputStream = new FileInputStream(filepath)){
             int size = inputStream.available();
             byte[] data = new byte[size];
