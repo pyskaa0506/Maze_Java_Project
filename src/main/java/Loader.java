@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +7,17 @@ import java.util.List;
 // feel free to change argument usage if needed
 public class Loader {
     private char[][] MazeMatrix;
-    private String filepath = "src/main/resources/5x5.txt";
+    //private String filepath = "src/main/resources/5x5.txt";
 
     // to bin files: should return maze with entrance and exit (P and K should be included)
-    public char[][]loadMaze() {
-        if (isBinary(filepath)){
-            //return maze with entrance and exit
+    public char[][] loadMaze(String filepath)
+    {
+        if (isBinary(filepath)) {
+            // Implement binary file reading logic here
+            // Example: return loadBinaryMaze(filepath);
+        } else {
+            this.MazeMatrix = convertToCharMatrix(loadFile(filepath));
         }
-        this.MazeMatrix = convertToCharMatrix( loadFile(filepath) );
         return MazeMatrix;
     }
 
@@ -31,13 +32,6 @@ public class Loader {
         //everything under this comment is a placeholder
         return false;
     }
-
-    public Boolean isBinary(String filepath){
-        //method not implemented yet, should return true if file is binary
-        //everything under this comment is a placeholder
-        return false;
-    }
-
 
     private List<String> loadFile(String filepath){
 
@@ -62,4 +56,23 @@ public class Loader {
         }
         return MazeMatrix;
     }
+
+    public boolean isBinary(String filepath){
+        try(InputStream inputStream = new FileInputStream(filepath)){
+            int size = inputStream.available();
+            byte[] data = new byte[size];
+            inputStream.read(data);
+            for (int i = 0; i < data.length; i++){
+                if(data[i] == 0 ){
+                    // returns true if a null byte was found (it's likely a bin file)
+                    return true;
+                }
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
 }
