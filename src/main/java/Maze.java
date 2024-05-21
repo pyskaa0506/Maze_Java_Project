@@ -15,7 +15,6 @@ public class Maze {
 
     public void load(String filepath) {
         maze = loader.loadMaze(filepath);
-        path = loader.loadPath();
         entrance = new Coordinates().getPositionOfLetter(maze, 'P');
         exit = new Coordinates().getPositionOfLetter(maze, 'K');
         new Coordinates().stripMazeOfLetter(maze, 'P');

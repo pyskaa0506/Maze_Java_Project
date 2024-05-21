@@ -1,39 +1,89 @@
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-// all that Loader does rn is loading text file as char[]][] (MazeMatrix) in loadMaze()
-// loadPath() and containsPath() are placeholders
-// feel free to change argument usage if needed
 public class Loader {
     private char[][] MazeMatrix;
 
     public char[][] loadMaze(String filepath)
     {
         if (isBinary(filepath)) {
+            System.out.println("Binary file detected");
             this.MazeMatrix = loadBinaryMaze(filepath);
         } else {
+            System.out.println("Text file detected");
             this.MazeMatrix = convertToCharMatrix(loadFile(filepath));
         }
         return MazeMatrix;
     }
 
     private char[][] loadBinaryMaze(String filepath) {
-        //method not implemented yet, should return maze with entrance and exit (P and K should be included)
-        //everything under this comment is a placeholder
-        return new char[0][];
-    }
+        try (FileInputStream fis = new FileInputStream(filepath)){
+            byte[] header = new byte[40];
+            int read = fis.read(header);
+            if (read != header.length) {
+                MessageUtils.ErrorMessage("Could not fully read the header");
+                throw new IOException("Could not fully read the header");
+            }
+            ByteBuffer buffer = ByteBuffer.wrap(header).order(ByteOrder.LITTLE_ENDIAN);
 
-    public List<Coordinates> loadPath() {
-        //method not implemented yet, should return path in Maze.load() if binary file contains path
-        //everything under this comment is a placeholder
-        return new ArrayList<>();
-    }
+            int fileId = buffer.getInt(); // 4 bytes
+            byte escape = buffer.get(); // 1 byte
+            short columns = buffer.getShort(); // 2 bytes
+            short lines = buffer.getShort();
+            short entryX = buffer.getShort();
+            short entryY = buffer.getShort();
+            short exitX = buffer.getShort();
+            short exitY = buffer.getShort();
+            buffer.position(buffer.position() + 12);
+            int counter = buffer.getInt();
+            int solutionOffset = buffer.getInt();
+            byte separator = buffer.get();
+            byte wall = buffer.get();
+            byte path = buffer.get();
 
-    public Boolean containsPath() {
-        //method not implemented yet, should return true if binary file contains path
-        //everything under this comment is a placeholder
-        return false;
+            System.out.printf("File ID: 0x%08X%n", fileId);
+            System.out.printf("Escape: 0x%02X%n", escape);
+            System.out.printf("Columns: %d%n", columns);
+            System.out.printf("Lines: %d%n", lines);
+            System.out.printf("Entry: (%d, %d)%n", entryX, entryY);
+            System.out.printf("Exit: (%d, %d)%n", exitX, exitY);
+            System.out.printf("Counter: %d%n", counter);
+            System.out.printf("Solution Offset: %d%n", solutionOffset);
+            System.out.println("Separator:" + (char) separator);
+            System.out.println("Wall: " + (char) wall);
+            System.out.println("Path:" + (char) path);
+
+            char[][] binMaze = new char[lines][columns];
+            int tempCol = 0;
+            int tempRow = 0;
+            for (int i = 0; i < counter; i++){
+                byte sep = (byte) fis.read();
+                byte value = (byte) fis.read();
+                byte count = (byte) fis.read();
+                int actualCount = (count & 0xFF) + 1;
+
+                for (int j = 0; j < actualCount; j++){
+                    if (tempCol == columns){
+                        tempCol = 0;
+                        tempRow++;
+                    }
+                    binMaze[tempRow][tempCol] = (char) value;
+                    tempCol++;
+                }
+            }
+
+            binMaze[entryY-1][entryX-1] = 'P';
+            binMaze[exitY-1][exitX-1] = 'K';
+
+            return binMaze;
+
+        } catch (IOException e) {
+            MessageUtils.ErrorMessage("Could not read the file");
+            throw new RuntimeException(e);
+        }
     }
 
     private List<String> loadFile(String filepath){
@@ -46,6 +96,7 @@ public class Loader {
                 fileContent.add(line);
             }
         } catch (IOException e) {
+            MessageUtils.ErrorMessage("Could not read the file");
             throw new RuntimeException(e);
         }
         return fileContent;
@@ -73,9 +124,9 @@ public class Loader {
             }
         }
         catch (IOException e) {
+            MessageUtils.ErrorMessage("Could not read the file");
             throw new RuntimeException(e);
         }
         return false;
     }
-
 }
