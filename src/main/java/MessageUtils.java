@@ -6,6 +6,6 @@ public class MessageUtils {
     }
 
     public static void SuccessMessage(String message){
-        JOptionPane.showMessageDialog(null, message, "Succcess", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 }

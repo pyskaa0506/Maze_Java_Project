@@ -5,18 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Loader {
-    private char[][] MazeMatrix;
 
     public char[][] loadMaze(String filepath)
     {
+        char[][] mazeMatrix = null;
+
         if (isBinary(filepath)) {
             System.out.println("Binary file detected");
-            this.MazeMatrix = loadBinaryMaze(filepath);
+            if (FileValidator.isBinFileValid(filepath)) {
+                mazeMatrix = loadBinaryMaze(filepath);
+            }
+
         } else {
             System.out.println("Text file detected");
-            this.MazeMatrix = convertToCharMatrix(loadFile(filepath));
+            if (FileValidator.isFileValid(loadFile(filepath))) {
+                mazeMatrix = convertToCharMatrix(loadFile(filepath));
+            }
         }
-        return MazeMatrix;
+        return mazeMatrix;
     }
 
     private char[][] loadBinaryMaze(String filepath) {
@@ -59,6 +65,7 @@ public class Loader {
             char[][] binMaze = new char[lines][columns];
             int tempCol = 0;
             int tempRow = 0;
+            int how_many = 0;
             for (int i = 0; i < counter; i++){
                 byte sep = (byte) fis.read();
                 byte value = (byte) fis.read();
@@ -72,6 +79,7 @@ public class Loader {
                     }
                     binMaze[tempRow][tempCol] = (char) value;
                     tempCol++;
+                    how_many++;
                 }
             }
 
@@ -116,8 +124,8 @@ public class Loader {
             int size = inputStream.available();
             byte[] data = new byte[size];
             inputStream.read(data);
-            for (int i = 0; i < data.length; i++){
-                if(data[i] == 0 ){
+            for (byte datum : data) {
+                if (datum == 0) {
                     // returns true if a null byte was found (it's likely a bin file)
                     return true;
                 }

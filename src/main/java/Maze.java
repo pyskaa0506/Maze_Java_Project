@@ -13,8 +13,12 @@ public class Maze {
         solver = new Solver();
     }
 
-    public void load(String filepath) {
+    // I suggest to change the type of the return value to boolean so that the caller can know if the file was loaded successfully or not
+    public boolean load(String filepath) {
         maze = loader.loadMaze(filepath);
+        if (maze == null) {
+            return false;
+        }
         entrance = new Coordinates().getPositionOfLetter(maze, 'P');
         exit = new Coordinates().getPositionOfLetter(maze, 'K');
         new Coordinates().stripMazeOfLetter(maze, 'P');
@@ -22,6 +26,7 @@ public class Maze {
 
         System.out.println("Entrance: " + entrance.x + " " + entrance.y);
         System.out.println("Exit: " + exit.x + " " + exit.y);
+        return true;
     }
 
     public void solve()
