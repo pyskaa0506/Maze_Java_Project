@@ -29,9 +29,11 @@ public class Maze {
         return true;
     }
 
-    public void solve()
-    {
+    public void solve() {
         path = solver.solve(maze, entrance, exit);
+        for (Coordinates c : path) {
+            maze[c.x][c.y] = '#';
+        }
     }
 
     public void printPath() {
@@ -47,5 +49,13 @@ public class Maze {
             }
             System.out.println();
         }
+    }
+
+    public char[][] getMaze() {
+        return maze;
+    }
+
+    public List<Coordinates> getPath() {
+        return path;
     }
 }
