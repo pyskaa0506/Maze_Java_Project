@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Render extends JPanel {
     private char[][] maze;
@@ -14,7 +18,7 @@ public class Render extends JPanel {
         if (maze != null) {
             /*
             we can change this value to make the maze bigger or smaller;
-            remember to change the value to the same in getPreferredSize()
+            remember to change the value to the same in getPreferredSize() and saveImage()
              */
             int сell = 10;
             for (int y = 0; y < maze.length; y++) {
@@ -54,4 +58,24 @@ public class Render extends JPanel {
         revalidate();
         repaint();
     }
+
+    private void saveImage(String filepath, boolean solved) throws IOException {
+        int cell = 10;
+        int width = maze[0].length*cell;
+        int height = maze.length*cell;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics2D = image.createGraphics();
+        paintComponent(graphics2D);
+        graphics2D.dispose();
+        ImageIO.write(image, "png", new File(filepath));
+    }
+
+    public void saveMazeAsImage(String filepath) throws IOException{
+        saveImage(filepath, false);
+    }
+
+    public void saveSolvedAsImage(String filepath) throws IOException {
+        saveImage(filepath, true);
+    }
+
 }

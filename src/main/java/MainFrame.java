@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.IOException;
 
 public class MainFrame {
 
@@ -31,6 +32,9 @@ public class MainFrame {
 
     MainFrame() {
         maze = new Maze();
+
+        downloadMaze.setVisible(false);
+        downloadSolved.setVisible(false);
 
         UploadText.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser(".");
@@ -67,6 +71,7 @@ public class MainFrame {
             ScrollPane.setViewportView(render);
             render.revalidate();
             render.repaint();
+            downloadMaze.setVisible(true);
         });
 
 
@@ -76,12 +81,55 @@ public class MainFrame {
             ScrollPane.setViewportView(render);
             render.revalidate();
             render.repaint();
+            downloadSolved.setVisible(true);
         });
 
         howToUseATextArea.setEditable(false);
         BCText.setEditable(false);
         MCText.setEditable(false);
         SCText.setEditable(false);
+
+        downloadMaze.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser(".");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("png image", "png");
+            fileChooser.setFileFilter(filter);
+            int response = fileChooser.showSaveDialog(null);
+            if (response == JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                String filepath = file.getAbsolutePath();
+                if (!filepath.endsWith("png")){
+                    filepath += ".png";
+                }
+                try {
+                    render.saveMazeAsImage(filepath);
+                    MessageUtils.SuccessMessage("Maze image saved.");
+                } catch (IOException ex) {
+                    MessageUtils.ErrorMessage("Failed to save image.");
+                }
+            }
+        });
+
+        downloadSolved.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser(".");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+            fileChooser.setFileFilter(filter);
+            int response = fileChooser.showSaveDialog(null);
+            if (response == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                String filePath = file.getAbsolutePath();
+                if (!filePath.endsWith(".png")) {
+                    filePath += ".png";
+                }
+                try {
+                    render.saveSolvedAsImage(filePath);
+                    MessageUtils.SuccessMessage("Solved maze image saved successfully.");
+                } catch (IOException ex) {
+                    MessageUtils.ErrorMessage("Failed to save solved maze image.");
+                }
+            }
+        });
+
+
     }
 
 }
