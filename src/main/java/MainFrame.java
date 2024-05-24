@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -101,7 +102,12 @@ public class MainFrame {
                     filepath += ".png";
                 }
                 try {
+                    maze.removePath();
+                    render.setMaze(maze.getMaze());
                     render.saveMazeAsImage(filepath);
+                    maze.restorePath();
+                    render.setMaze(maze.getMaze());
+                    render.repaint();
                     MessageUtils.SuccessMessage("Maze image saved.");
                 } catch (IOException ex) {
                     MessageUtils.ErrorMessage("Failed to save image.");
@@ -129,6 +135,17 @@ public class MainFrame {
             }
         });
 
+        BCPalette.addActionListener(e-> {
+            Color initialColor = render != null ? render.backgroundColor : Color.BLACK;
+            Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
+            if (color != null){
+                BCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+                if (render != null){
+                    render.setBackground(color);
+                    render.repaint();
+                }
+            }
+        });
 
     }
 

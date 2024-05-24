@@ -2,6 +2,7 @@ import java.util.List;
 
 public class Maze {
     private char[][] maze;
+    private char[][] originalMaze;
     private List<Coordinates> path;
     Coordinates entrance;
     Coordinates exit;
@@ -58,4 +59,24 @@ public class Maze {
     public List<Coordinates> getPath() {
         return path;
     }
+
+    public void removePath() {
+        if (path != null && maze != null) {
+            originalMaze = new char[maze.length][];
+            for (int i = 0; i < maze.length; i++) {
+                originalMaze[i] = maze[i].clone();
+            }
+            for (Coordinates c : path) {
+                maze[c.x][c.y] = ' ';
+            }
+        }
+    }
+
+    public void restorePath() {
+        if (originalMaze != null) {
+            maze = originalMaze;
+            originalMaze = null;
+        }
+    }
+
 }

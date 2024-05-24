@@ -1,12 +1,16 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Render extends JPanel {
     private char[][] maze;
+    protected Color backgroundColor = Color.WHITE;
+    protected Color mazeColor = Color.BLACK;
+    protected Color solveColor = Color.ORANGE;
 
     public Render(char[][] maze) {
         this.maze = maze;
@@ -24,19 +28,16 @@ public class Render extends JPanel {
             for (int y = 0; y < maze.length; y++) {
                 for (int x = 0; x < maze[y].length; x++) {
                     if (maze[y][x] == 'X') {
-                        g.setColor(Color.BLACK);
+                        g.setColor(mazeColor);
                     }
                     else if (maze[y][x] == ' ') {
-                        g.setColor(Color.WHITE);
+                        g.setColor(backgroundColor);
                     }
                     else if (maze[y][x] == '#') {
-                        g.setColor(Color.RED);
+                        g.setColor(solveColor);
                     }
                     g.fillRect(x * сell, y * сell, сell, сell);
                     g.setColor(Color.GRAY); // grid color;
-                    /*
-                    later I will try to change the colour of the grid to match the background colour specified by the user
-                     */
                     g.drawRect(x * сell, y * сell, сell, сell);
                 }
             }
@@ -78,4 +79,20 @@ public class Render extends JPanel {
         saveImage(filepath, true);
     }
 
+    public void setBackgroundColor(Color color) {
+        this.backgroundColor = color;
+    }
+/*
+    public void setPathColor(Color color) {
+        this.pathColor = color;
+    }
+
+    public void setStartEndColor(Color color) {
+        this.startEndColor = color;
+    }
+
+    public void setSolutionColor(Color color) {
+        this.solutionColor = color;
+    }
+*/
 }
