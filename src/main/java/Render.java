@@ -11,6 +11,7 @@ public class Render extends JPanel {
     private Color backgroundColor = Color.WHITE;
     private Color mazeColor = Color.BLACK;
     private Color solveColor = Color.ORANGE;
+    private int cell = 10;
 
     public Render(char[][] maze) {
         this.maze = maze;
@@ -35,6 +36,11 @@ public class Render extends JPanel {
                     }
                     else if (maze[y][x] == '#') {
                         g.setColor(solveColor);
+                    }
+                    else if (maze[y][x] == 'P') {
+                        g.setColor(Color.BLUE);
+                    } else if (maze[y][x] == 'K') {
+                        g.setColor(Color.GREEN);
                     }
                     g.fillRect(x * сell, y * сell, сell, сell);
                     g.setColor(Color.GRAY); // grid color;
@@ -101,6 +107,10 @@ public class Render extends JPanel {
 
     public Color getSolveColor(){
         return solveColor;
+    }
+
+    public int getCell() {
+        return cell;
     }
 
 }

@@ -3,6 +3,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,6 +34,9 @@ public class MainFrame {
 
     private Maze maze;
     private Render render;
+
+    private boolean changeEntrance = false;
+    private boolean changeExit = false;
 
     MainFrame() {
         maze = new Maze();
@@ -76,6 +81,32 @@ public class MainFrame {
             render.revalidate();
             render.repaint();
             downloadMaze.setVisible(true);
+
+            render.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (changeEntrance || changeExit) {
+                        Point p = e.getPoint();
+                        int cell = render.getCell();
+                        int x = p.y/cell;
+                        int y = p.x/cell;
+                        if (changeEntrance)
+                        {
+                            maze.setEntrance(new Coordinates(x, y));
+                            changeEntrance = false;
+                        }
+                        else if (changeExit)
+                        {
+                            maze.setExit(new Coordinates(x, y));
+                            changeExit = false;
+                        }
+                        render.setMaze(maze.getMaze());
+                        applyColors();
+                        render.revalidate();
+                        render.repaint();
+                    }
+                }
+            });
         });
 
 
@@ -220,7 +251,13 @@ public class MainFrame {
             }
         });
 
+        ChangeP.addActionListener(e -> {
+            changeEntrance = true;
+        });
 
+        ChangeK.addActionListener(e -> {
+            changeExit = true;
+        });
 
 
     }

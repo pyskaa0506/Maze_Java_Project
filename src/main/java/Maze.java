@@ -79,4 +79,12 @@ public class Maze {
         }
     }
 
+    public void setEntrance(Coordinates entrance) {
+        this.entrance = entrance;
+    }
+
+    public void setExit(Coordinates exit) {
+        this.exit = exit;
+    }
+
 }
