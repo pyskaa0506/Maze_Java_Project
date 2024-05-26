@@ -54,7 +54,7 @@
           <text value="MazeSolver"/>
         </properties>
       </component>
-      <component id="addab" class="javax.swing.JLabel" binding="ColourInfo">
+      <component id="addab" class="javax.swing.JLabel" binding="ColorInfo">
         <constraints>
           <grid row="10" column="2" row-span="1" col-span="8" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <forms/>

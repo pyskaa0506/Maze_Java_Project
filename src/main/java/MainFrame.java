@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,7 +27,7 @@ public class MainFrame {
     private JButton ChangeK;
     private JLabel ProgrammeName;
     private JTextArea howToUseATextArea;
-    private JLabel ColourInfo;
+    private JLabel ColorInfo;
     private JScrollPane ScrollPane;
 
     private Maze maze;
@@ -38,7 +40,7 @@ public class MainFrame {
         downloadSolved.setVisible(false);
 
         UploadText.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser(".");
+            JFileChooser fileChooser = new JFileChooser("./default_maps");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Text and binary file", "txt", "bin");
             fileChooser.setFileFilter(filter);
             int response = fileChooser.showOpenDialog(null);
@@ -70,6 +72,7 @@ public class MainFrame {
             ScrollPane.setViewportView(render);
             render.setMaze(maze.getMaze());
             ScrollPane.setViewportView(render);
+            applyColors();
             render.revalidate();
             render.repaint();
             downloadMaze.setVisible(true);
@@ -79,6 +82,7 @@ public class MainFrame {
         SolveMaze.addActionListener(e -> {
             maze.solve();
             render.setMaze(maze.getMaze());
+            applyColors();
             ScrollPane.setViewportView(render);
             render.revalidate();
             render.repaint();
@@ -135,18 +139,113 @@ public class MainFrame {
             }
         });
 
-        BCPalette.addActionListener(e-> {
-            Color initialColor = render != null ? render.backgroundColor : Color.BLACK;
+        BCPalette.addActionListener(e -> {
+            Color initialColor = render != null ? render.getBackgroundColor() : Color.WHITE;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
             if (color != null){
                 BCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
-                if (render != null){
-                    render.setBackground(color);
-                    render.repaint();
+                if (render != null) {
+                    render.setBackgroundColor(color);
                 }
             }
         });
 
+        MCPalette.addActionListener(e -> {
+            Color initialColor = render != null ? render.getMazeColor() : Color.BLACK;
+            Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
+            if (color != null){
+                MCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+                if (render != null) {
+                    render.setMazeColor(color);
+                }
+            }
+        });
+
+        SCPalette.addActionListener(e -> {
+            Color initialColor = render != null ? render.getSolveColor() : Color.BLACK;
+            Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
+            if (color != null){
+                SCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+                if (render != null) {
+                    render.setSolveColor(color);
+                }
+            }
+        });
+
+        BCField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    Color color = Color.decode(BCField.getText());
+                    if (render != null ){
+                        render.setBackgroundColor(color);
+                        render.repaint();
+                    }
+                }
+                catch (NumberFormatException exep){
+                    MessageUtils.ErrorMessage("Invalid color code");
+                }
+            }
+        });
+
+        MCField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    Color color = Color.decode(MCField.getText());
+                    if (render != null ){
+                        render.setMazeColor(color);
+                        render.repaint();
+                    }
+                }
+                catch (NumberFormatException exep){
+                    MessageUtils.ErrorMessage("Invalid color code");
+                }
+            }
+        });
+
+        SCField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    Color color = Color.decode(SCField.getText());
+                    if (render != null ){
+                        render.setSolveColor(color);
+                        render.repaint();
+                    }
+                }
+                catch (NumberFormatException exep){
+                    MessageUtils.ErrorMessage("Invalid color code");
+                }
+            }
+        });
+
+
+
+
     }
+
+    private void applyColors() {
+        try {
+            if(!BCField.getText().isEmpty()) {
+                Color backgroundColor = Color.decode(BCField.getText());
+                render.setBackgroundColor(backgroundColor);
+                render.repaint();
+            }
+            if(!MCField.getText().isEmpty()) {
+                Color mazeColor = Color.decode(MCField.getText());
+                render.setMazeColor(mazeColor);
+                render.repaint();
+            }
+            if(!SCField.getText().isEmpty()) {
+                    Color solveColor = Color.decode(SCField.getText());
+                    render.setSolveColor(solveColor);
+                    render.repaint();
+            }
+        } catch (NumberFormatException e) {
+            MessageUtils.ErrorMessage("Invalid color code in one of the fields.");
+        }
+    }
+
 
 }

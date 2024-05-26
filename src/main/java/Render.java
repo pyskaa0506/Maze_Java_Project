@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class Render extends JPanel {
     private char[][] maze;
-    protected Color backgroundColor = Color.WHITE;
-    protected Color mazeColor = Color.BLACK;
-    protected Color solveColor = Color.ORANGE;
+    private Color backgroundColor = Color.WHITE;
+    private Color mazeColor = Color.BLACK;
+    private Color solveColor = Color.ORANGE;
 
     public Render(char[][] maze) {
         this.maze = maze;
@@ -79,20 +79,28 @@ public class Render extends JPanel {
         saveImage(filepath, true);
     }
 
-    public void setBackgroundColor(Color color) {
-        this.backgroundColor = color;
-    }
-/*
-    public void setPathColor(Color color) {
-        this.pathColor = color;
+    public void setBackgroundColor(Color backgroundColor){
+        this.backgroundColor = backgroundColor;
     }
 
-    public void setStartEndColor(Color color) {
-        this.startEndColor = color;
+    public Color getBackgroundColor(){
+        return backgroundColor;
     }
 
-    public void setSolutionColor(Color color) {
-        this.solutionColor = color;
+    public void setMazeColor(Color mazeColor){
+        this.mazeColor = mazeColor;
     }
-*/
+
+    public Color getMazeColor(){
+        return mazeColor;
+    }
+
+    public void setSolveColor(Color solveColor){
+        this.solveColor = solveColor;
+    }
+
+    public Color getSolveColor(){
+        return solveColor;
+    }
+
 }
