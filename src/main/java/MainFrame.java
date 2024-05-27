@@ -44,6 +44,8 @@ public class MainFrame {
         downloadMaze.setVisible(false);
         downloadSolved.setVisible(false);
 
+        disableButtons();
+
         UploadText.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser("./default_maps");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Text and binary file", "txt", "bin");
@@ -57,8 +59,8 @@ public class MainFrame {
 
                 if (isBinary || filepath.endsWith(".txt")) {
                     maze.load(filepath);
-
                     MessageUtils.SuccessMessage("The " + fileType + " file was successfully loaded.");
+                    enableButtons();
                 } else {
                     MessageUtils.SuccessMessage("Select a valid file (.txt or .bin).");
                 }
@@ -84,26 +86,21 @@ public class MainFrame {
 
             render.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (changeEntrance || changeExit) {
-                        Point p = e.getPoint();
-                        int cell = render.getCell();
-                        int x = p.y/cell;
-                        int y = p.x/cell;
-                        if (changeEntrance)
-                        {
-                            maze.setEntrance(new Coordinates(x, y));
-                            changeEntrance = false;
-                        }
-                        else if (changeExit)
-                        {
-                            maze.setExit(new Coordinates(x, y));
-                            changeExit = false;
-                        }
-                        render.setMaze(maze.getMaze());
-                        applyColors();
-                        render.revalidate();
-                        render.repaint();
+                public void mouseClicked(MouseEvent e){
+                    int x = e.getY()/render.getCell();
+                    int y = e.getX()/render.getCell();
+                    Coordinates newCoordinate = new Coordinates(x, y);
+                    if (changeEntrance)
+                    {
+                        maze.setEntrance(newCoordinate);
+                        render.setEntrance(newCoordinate);
+                        changeEntrance = false;
+                    }
+                    else if (changeExit)
+                    {
+                        maze.setExit(newCoordinate);
+                        render.setExit(newCoordinate);
+                        changeExit = false;
                     }
                 }
             });
@@ -111,6 +108,7 @@ public class MainFrame {
 
 
         SolveMaze.addActionListener(e -> {
+            maze.removePath();
             maze.solve();
             render.setMaze(maze.getMaze());
             applyColors();
@@ -170,9 +168,13 @@ public class MainFrame {
             }
         });
 
+        BCPalette.setText("Color palette");
+        BCPalette.setBackground(Color.WHITE);
+
         BCPalette.addActionListener(e -> {
             Color initialColor = render != null ? render.getBackgroundColor() : Color.WHITE;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
+            BCPalette.setBackground(color);
             if (color != null){
                 BCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
                 if (render != null) {
@@ -181,9 +183,13 @@ public class MainFrame {
             }
         });
 
+        MCPalette.setText("Color palette ");
+        MCPalette.setBackground(Color.BLACK);
+
         MCPalette.addActionListener(e -> {
             Color initialColor = render != null ? render.getMazeColor() : Color.BLACK;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
+            MCPalette.setBackground(color);
             if (color != null){
                 MCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
                 if (render != null) {
@@ -192,9 +198,13 @@ public class MainFrame {
             }
         });
 
+        SCPalette.setText("Color palette");
+        SCPalette.setBackground(Color.ORANGE);
+
         SCPalette.addActionListener(e -> {
             Color initialColor = render != null ? render.getSolveColor() : Color.BLACK;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
+            SCPalette.setBackground(color);
             if (color != null){
                 SCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
                 if (render != null) {
@@ -284,5 +294,34 @@ public class MainFrame {
         }
     }
 
+    private void disableButtons(){
+        ShowMaze.setEnabled(false);
+        SolveMaze.setEnabled(false);
+        BCPalette.setEnabled(false);
+        MCPalette.setEnabled(false);
+        SCPalette.setEnabled(false);
+        BCField.setEnabled(false);
+        MCField.setEnabled(false);
+        SCField.setEnabled(false);
+        ChangeP.setEnabled(false);
+        ChangeK.setEnabled(false);
+        downloadMaze.setEnabled(false);
+        downloadSolved.setEnabled(false);
+    }
+
+    private void enableButtons(){
+        ShowMaze.setEnabled(true);
+        SolveMaze.setEnabled(true);
+        BCPalette.setEnabled(true);
+        MCPalette.setEnabled(true);
+        SCPalette.setEnabled(true);
+        BCField.setEnabled(true);
+        MCField.setEnabled(true);
+        SCField.setEnabled(true);
+        ChangeP.setEnabled(true);
+        ChangeK.setEnabled(true);
+        downloadMaze.setEnabled(true);
+        downloadSolved.setEnabled(true);
+    }
 
 }

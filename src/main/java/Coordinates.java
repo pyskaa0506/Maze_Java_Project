@@ -10,18 +10,15 @@
         }
 
 
-        public Coordinates getPositionOfLetter(char[][] maze, char letter){
-            Coordinates coordinates = new Coordinates();
+        public Coordinates getPositionOfLetter(char[][] maze, char letter) {
             for (int i = 0; i < maze.length; i++) {
                 for (int j = 0; j < maze[i].length; j++) {
-                    if (maze[i][j] == letter){
-                        coordinates.x = i;
-                        coordinates.y = j;
-                        return coordinates;
+                    if (maze[i][j] == letter) {
+                        return new Coordinates(i, j);
                     }
                 }
             }
-            return coordinates;
+            return null;
         }
 
         public void stripMazeOfLetter(char[][] maze, char letter){

@@ -11,7 +11,11 @@ public class Render extends JPanel {
     private Color backgroundColor = Color.WHITE;
     private Color mazeColor = Color.BLACK;
     private Color solveColor = Color.ORANGE;
-    private int cell = 10;
+
+    private int cell = 10; // we can change this value to make the maze bigger or smaller;
+
+    private Coordinates entrance;
+    private Coordinates exit;
 
     public Render(char[][] maze) {
         this.maze = maze;
@@ -21,11 +25,6 @@ public class Render extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (maze != null) {
-            /*
-            we can change this value to make the maze bigger or smaller;
-            remember to change the value to the same in getPreferredSize() and saveImage()
-             */
-            int сell = 10;
             for (int y = 0; y < maze.length; y++) {
                 for (int x = 0; x < maze[y].length; x++) {
                     if (maze[y][x] == 'X') {
@@ -37,15 +36,19 @@ public class Render extends JPanel {
                     else if (maze[y][x] == '#') {
                         g.setColor(solveColor);
                     }
-                    else if (maze[y][x] == 'P') {
-                        g.setColor(Color.BLUE);
-                    } else if (maze[y][x] == 'K') {
-                        g.setColor(Color.GREEN);
-                    }
-                    g.fillRect(x * сell, y * сell, сell, сell);
+                    g.fillRect(x * getCell(), y * getCell(), getCell(), getCell());
                     g.setColor(Color.GRAY); // grid color;
-                    g.drawRect(x * сell, y * сell, сell, сell);
+                    g.drawRect(x * getCell(), y * getCell(), getCell(), getCell());
+                    if (entrance != null){
+                        g.setColor(Color.BLUE);
+                        g.fillRect(entrance.y*cell, entrance.x*cell, cell,cell);
+                    }
+                    if(exit != null){
+                        g.setColor(Color.GREEN);
+                        g.fillRect(exit.y*cell, exit.x*cell, cell,cell);
+                    }
                 }
+                
             }
         }
     }
@@ -54,8 +57,7 @@ public class Render extends JPanel {
     public Dimension getPreferredSize() {
         if (maze != null)
         {
-            int сell = 10;
-            return new Dimension(maze[0].length * сell, maze.length * сell);
+            return new Dimension(maze[0].length * getCell(), maze.length * getCell());
         }
         return super.getPreferredSize();
     }
@@ -67,9 +69,8 @@ public class Render extends JPanel {
     }
 
     private void saveImage(String filepath, boolean solved) throws IOException {
-        int cell = 10;
-        int width = maze[0].length*cell;
-        int height = maze.length*cell;
+        int width = maze[0].length*getCell();
+        int height = maze.length*getCell();
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = image.createGraphics();
         paintComponent(graphics2D);
@@ -111,6 +112,16 @@ public class Render extends JPanel {
 
     public int getCell() {
         return cell;
+    }
+
+    public void setEntrance(Coordinates entrance) {
+        this.entrance = entrance;
+        repaint();
+    }
+
+    public void setExit(Coordinates exit) {
+        this.exit = exit;
+        repaint();
     }
 
 }

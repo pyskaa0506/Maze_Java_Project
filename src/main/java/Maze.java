@@ -87,4 +87,12 @@ public class Maze {
         this.exit = exit;
     }
 
+    public Coordinates getEntrance() {
+        return entrance;
+    }
+
+    public Coordinates getExit() {
+        return exit;
+    }
+
 }
