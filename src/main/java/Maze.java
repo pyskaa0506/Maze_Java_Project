@@ -50,7 +50,7 @@ public class Maze {
     }
     public void downloadBin(String destinationPath) {
         String inputPath = this.filepath;
-        fileDownloader.downloadBin(destinationPath, filepath, path);
+        fileDownloader.downloadBin(destinationPath, inputPath, path);
     }
 
     public void printPath() {
