@@ -8,10 +8,9 @@ public class Solver {
     private final List<Coordinates> path = new ArrayList<>();
 
     public List<Coordinates> solve(char[][] maze, Coordinates entrance, Coordinates exit){
-
         restart();
         transformMazeCharToInt(maze);
-        dijkstra(entrance, exit);
+        if (!dijkstra(entrance, exit)) return null;
         backtracking(entrance, exit);
         reversePath();
 
@@ -32,7 +31,6 @@ public class Solver {
     }
 
     private void backtracking(Coordinates entrance, Coordinates exit){
-        //come back here and implement backtracking
         int x = exit.x;
         int y = exit.y;
         pathReversed.add(new Coordinates(x, y));
@@ -56,7 +54,12 @@ public class Solver {
         }
     }
 
-    private void dijkstra(Coordinates entrance, Coordinates exit){
+    private boolean dijkstra(Coordinates entrance, Coordinates exit){
+
+        if (!isAccessible(maze_tmp, entrance) || !isAccessible(maze_tmp, exit)) {
+            MessageUtils.ErrorMessage("Invalid maze. Entrance or exit is surrounded by walls.");
+            return false;
+        }
 
         int x = entrance.x;
         int y = entrance.y;
@@ -73,7 +76,7 @@ public class Solver {
             possibleMoves.remove(smallest);
 
             if (x == exit.x && y == exit.y){
-                break;
+                return true;
             }
 
             if (x - 1 >= 0 && maze_tmp[x - 1][y] == -1){
@@ -94,7 +97,10 @@ public class Solver {
                 possibleMoves.add(new Coordinates(x, y + 1));
             }
         }
+        MessageUtils.ErrorMessage("No path found.");
+        return false;
     }
+
     private Coordinates findSmallestInPossibleMoves(){
         Coordinates smallest = possibleMoves.get(0);
         for (int i = 1; i < possibleMoves.size(); i++) {
@@ -104,6 +110,23 @@ public class Solver {
         }
         return smallest;
     }
+
+    public boolean isAccessible(int[][] maze, Coordinates coord) {
+        int x = coord.x;
+        int y = coord.y;
+        int rows = maze.length;
+        int cols = maze[0].length;
+        int accessibleCount = 0;
+
+        if (x > 0 && maze[x - 1][y] != -2) accessibleCount++;
+        if (x < rows - 1 && maze[x + 1][y] != -2) accessibleCount++;
+        if (y > 0 && maze[x][y - 1] != -2) accessibleCount++;
+        if (y < cols - 1 && maze[x][y + 1] != -2) accessibleCount++;
+
+        return accessibleCount > 0;
+    }
+
+
     //transform char maze to int maze
 private void transformMazeCharToInt(char[][] maze){
         maze_tmp = new int[maze.length][maze[0].length];

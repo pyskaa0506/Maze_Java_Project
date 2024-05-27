@@ -65,7 +65,7 @@ public class Loader {
             char[][] binMaze = new char[lines][columns];
             int tempCol = 0;
             int tempRow = 0;
-            int how_many = 0;
+
             for (int i = 0; i < counter; i++){
                 byte sep = (byte) fis.read();
                 byte value = (byte) fis.read();
@@ -79,7 +79,6 @@ public class Loader {
                     }
                     binMaze[tempRow][tempCol] = (char) value;
                     tempCol++;
-                    how_many++;
                 }
             }
 

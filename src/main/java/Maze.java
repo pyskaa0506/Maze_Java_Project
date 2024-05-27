@@ -31,6 +31,9 @@ public class Maze {
 
     public void solve() {
         path = solver.solve(maze, entrance, exit);
+        if (path == null) {
+            System.out.println("No path found");
+        }
         for (Coordinates c : path) {
             maze[c.x][c.y] = '#';
         }

@@ -1,10 +1,7 @@
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileValidator {
@@ -19,7 +16,7 @@ public class FileValidator {
             }
             ByteBuffer buffer = ByteBuffer.wrap(header).order(ByteOrder.LITTLE_ENDIAN);
 
-            int fileId = buffer.getInt(); // 4 bytes
+            buffer.getInt(); // 4 bytes
             byte escape = buffer.get(); // 1 byte
             if (escape != 0x1B) {
                 MessageUtils.ErrorMessage("Invalid file. Incorrect escape character");
