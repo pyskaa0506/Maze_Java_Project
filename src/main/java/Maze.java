@@ -41,15 +41,16 @@ public class Maze {
         for (Coordinates c : path) {
             maze[c.x][c.y] = '#';
         }
-//        fileDownloader.downloadTxt("src/main/resources/PlaceholderFolder/CommandPath.txt", path); // for testing purposes!!
+//        fileDownloader.downloadTxt("src/main/resources/PlaceholderFolder/CommandPath.txt", path); // for testing purposes, feel free to delete it when downloading will be connected properly to the GUI
+        fileDownloader.downloadBin("src/main/resources/PlaceholderFolder/CommandPath.bin", filepath, path);
     }
 
-    public void downloadTxt(String outputPath) {
-        fileDownloader.downloadTxt(filepath, path);
+    public void downloadTxt(String destinationPath) {
+        fileDownloader.downloadTxt(destinationPath, path);
     }
-    public void downloadBin(String outputPath) {
+    public void downloadBin(String destinationPath) {
         String inputPath = this.filepath;
-        fileDownloader.downloadBin(outputPath, inputPath, path);
+        fileDownloader.downloadBin(destinationPath, filepath, path);
     }
 
     public void printPath() {

@@ -5,24 +5,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileDownloader {
-    public void downloadTxt(String outPath, List<Coordinates> path) {
+    public void downloadTxt(String destinationPath, List<Coordinates> path) {
         List <Character> listOfDirections = convertCoordinatesToDirections(path);
         List <String> listOfCommands = convertDirectionsToCommands(listOfDirections);
-        saveToFile(outPath, listOfCommands);
+        saveToFile(destinationPath, listOfCommands);
     }
-    public void downloadBin(String outputPath, String inputPath, List<Coordinates> path) {
-        //print path
+    public void downloadBin(String destinationPath, String sourcePath, List<Coordinates> path) {
+        copyToFilepath(destinationPath, sourcePath);
+        List <Character> listOfDirections = convertCoordinatesToDirections(path);
+        List <Character> compressedDirections = compressDirections(listOfDirections);
+        //add saving path to binary file
+        for (Character direction : compressedDirections) {
+            System.out.print(direction);
+        }
     }
-    private void saveToFile(String outPath, List<String> listOfCommands) {
+
+    // compress directions to S3E2N3 etc. Max 255 steps in one direction
+    public List<Character> compressDirections(List<Character> directions) {
+        List<Character> compressedDirections = new ArrayList<>();
+        char currentDirection = directions.get(0);
+        int count = 1;
+        for (int i = 1; i < directions.size(); i++) {
+            char nextDirection = directions.get(i);
+            if (currentDirection == nextDirection && count < 255) {
+                count++;
+            } else {
+                compressedDirections.add(currentDirection);
+                for (char c : String.valueOf(count).toCharArray()) {
+                    compressedDirections.add(c);
+                }
+                count = 1;
+            }
+            currentDirection = nextDirection;
+        }
+        compressedDirections.add(currentDirection);
+        for (char c : String.valueOf(count).toCharArray()) {
+            compressedDirections.add(c);
+        }
+        return compressedDirections;
+    }
+
+    private void copyToFilepath(String destinationPath, String sourcePath) {
         try {
-            String pathWithoutExtension = outPath.substring(0, outPath.lastIndexOf("."));
-            String extension = outPath.substring(outPath.lastIndexOf("."));
+            Files.copy(Paths.get(sourcePath), Paths.get(destinationPath));
+        } catch (IOException e) {
+            System.out.println("An error occurred while copying the file: " + e.getMessage());
+        }
+    }
+
+    private void saveToFile(String destinationPath, List<String> listOfCommands) {
+        try {
+            String pathWithoutExtension = destinationPath.substring(0, destinationPath.lastIndexOf("."));
+            String extension = destinationPath.substring(destinationPath.lastIndexOf("."));
             int count = 0;
-            while (Files.exists(Paths.get(outPath))) {
-                outPath = pathWithoutExtension + "[" + count + "]" + extension;
+            while (Files.exists(Paths.get(destinationPath))) {
+                destinationPath = pathWithoutExtension + "[" + count + "]" + extension;
                 count++;
             }
-            Files.write(Paths.get(outPath), listOfCommands);
+            Files.write(Paths.get(destinationPath), listOfCommands);
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file: " + e.getMessage());
         }
