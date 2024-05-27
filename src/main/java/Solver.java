@@ -13,7 +13,6 @@ public class Solver {
         if (!dijkstra(entrance, exit)) return null;
         backtracking(entrance, exit);
         reversePath();
-
         return path;
     }
 
@@ -60,6 +59,8 @@ public class Solver {
             MessageUtils.ErrorMessage("Invalid maze. Entrance or exit is surrounded by walls.");
             return false;
         }
+
+        maze_tmp[exit.x][exit.y] = -1;
 
         int x = entrance.x;
         int y = entrance.y;
