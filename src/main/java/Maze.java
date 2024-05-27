@@ -42,7 +42,7 @@ public class Maze {
             maze[c.x][c.y] = '#';
         }
 //        fileDownloader.downloadTxt("src/main/resources/PlaceholderFolder/CommandPath.txt", path); // for testing purposes, feel free to delete it when downloading will be connected properly to the GUI
-        fileDownloader.downloadBin("src/main/resources/PlaceholderFolder/CommandPath.bin", filepath, path);
+//        fileDownloader.downloadBin("src/main/resources/PlaceholderFolder/CommandPath.bin", filepath, path); //not finished yet
     }
 
     public void downloadTxt(String destinationPath) {
