@@ -14,7 +14,6 @@ public class Maze {
         solver = new Solver();
     }
 
-    // I suggest to change the type of the return value to boolean so that the caller can know if the file was loaded successfully or not
     public boolean load(String filepath) {
         maze = loader.loadMaze(filepath);
         if (maze == null) {

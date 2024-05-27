@@ -95,25 +95,19 @@ public class FileValidator {
         }
     }
 
-        public static boolean isFileValid(List<String> strings) {
+    public static boolean isFileValid(List<String> strings) {
         // check if number of lines is higher than 2 and number of columns is higher than 2
         if (strings.size() < 3) {
             return false;
         }
-        if (strings.get(1).length() < 3) {
+        if (strings.get(0).length() < 3) { // checking the length of the first line instead of the second
             return false;
-        }
-        //check if number of rows is equal in all columns
-        for (int i = 1; i < strings.size(); i++) {
-            if (strings.get(i).length() != strings.get(1).length()) {
-                MessageUtils.ErrorMessage("Invalid file. Number of rows is not equal in all columns.");
-                return false;
-            }
         }
 
         //check if number of columns is equal in all rows
-        for (int i = 1; i < strings.get(1).length(); i++) {
-            if (strings.get(i).length() != strings.get(1).length()) {
+        int expectedColumnLength = strings.get(0).length();
+        for (String line : strings) {
+            if (line.length() != expectedColumnLength) {
                 MessageUtils.ErrorMessage("Invalid file. Number of columns is not equal in all rows.");
                 return false;
             }
@@ -122,12 +116,13 @@ public class FileValidator {
         //check if there is only one entrance and one exit
         int entrance = 0;
         int exit = 0;
-        for (String string : strings) {
-            for (int j = 0; j < string.length(); j++) {
-                if (string.charAt(j) == 'P') {
+        for (String line : strings) {
+            for (int j = 0; j < line.length(); j++) {
+                char c = line.charAt(j);
+                if (c == 'P') {
                     entrance++;
                 }
-                if (string.charAt(j) == 'K') {
+                if (c == 'K') {
                     exit++;
                 }
             }
@@ -137,26 +132,28 @@ public class FileValidator {
             return false;
         }
 
-        //check if file contains only '#', 'P', 'K', '\n' and ' '
-        for (String string : strings) {
-            for (int j = 0; j < string.length(); j++) {
-                char c = string.charAt(j);
-                if (c != 'X' && c != 'P' && c != 'K' && c != '\n' && c != ' ') {
+        // Check if file contains only 'X', 'P', 'K', '\n' and ' '
+        for (String line : strings) {
+            for (int j = 0; j < line.length(); j++) {
+                char c = line.charAt(j);
+                if (c != 'X' && c != 'P' && c != 'K' && c != ' ' ) { // '\n' should not be in individual strings
                     MessageUtils.ErrorMessage("Invalid file. File contains invalid characters.");
                     return false;
                 }
             }
         }
+
         //check if borders are correct (no ' ')
-        for (int i = 0; i < strings.size(); i++) {
-            if (strings.get(i).charAt(0) == ' ' || strings.get(i).charAt(strings.get(i).length() - 1) == ' ') { //check left and right borders
+        for (String line : strings) {
+            if (line.charAt(0) == ' ' || line.charAt(line.length() - 1) == ' ') { // check left and right borders
                 MessageUtils.ErrorMessage("Invalid file. Borders are incorrect.");
                 return false;
             }
         }
 
-        for (int i = 0; i < strings.get(1).length(); i++) {
-            if (strings.get(0).charAt(i) == ' ' || strings.get(strings.size() - 1).charAt(i) == ' ') { //check top and bottom borders
+        // Check top and bottom borders
+        for (int i = 0; i < expectedColumnLength; i++) {
+            if (strings.get(0).charAt(i) == ' ' || strings.get(strings.size() - 1).charAt(i) == ' ') { // check top and bottom borders
                 MessageUtils.ErrorMessage("Invalid file. Borders are incorrect.");
                 return false;
             }

@@ -58,9 +58,12 @@ public class MainFrame {
                 String fileType = isBinary ? "binary" : "text";
 
                 if (isBinary || filepath.endsWith(".txt")) {
-                    maze.load(filepath);
+                    if (maze.load(filepath)){
                     MessageUtils.SuccessMessage("The " + fileType + " file was successfully loaded.");
                     enableButtons();
+                    } else {
+                        disableButtons();
+                    }
                 } else {
                     MessageUtils.SuccessMessage("Select a valid file (.txt or .bin).");
                 }

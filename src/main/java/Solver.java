@@ -118,26 +118,5 @@ private void transformMazeCharToInt(char[][] maze){
             }
         }
     }
-
-
-//    private void printRefresh(){
-//        //clear console
-//        System.out.print("\033[H\033[2J");
-//        System.out.flush();
-//        printMaze();
-//    }
-//    private void printPossibleMoves(){
-//        for (Coordinates possibleMove : possibleMoves) {
-//            System.out.println(possibleMove.x + " " + possibleMove.y);
-//        }
-//    }
-//    private void printMaze(){
-//        for (int[] ints : maze_tmp) {
-//            for (int anInt : ints) {
-//                System.out.print(anInt);
-//            }
-//            System.out.println();
-//        }
-//    }
 }
 
