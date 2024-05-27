@@ -4,17 +4,21 @@ public class Maze {
     private char[][] maze;
     private char[][] originalMaze;
     private List<Coordinates> path;
+    private String filepath;
     Coordinates entrance;
     Coordinates exit;
     Loader loader;
     Solver solver;
+    FileDownloader fileDownloader;
 
     Maze() {
         loader = new Loader();
         solver = new Solver();
+        fileDownloader = new FileDownloader();
     }
 
     public boolean load(String filepath) {
+        this.filepath = filepath;
         maze = loader.loadMaze(filepath);
         if (maze == null) {
             return false;
@@ -37,6 +41,15 @@ public class Maze {
         for (Coordinates c : path) {
             maze[c.x][c.y] = '#';
         }
+//        fileDownloader.downloadTxt("src/main/resources/PlaceholderFolder/CommandPath.txt", path); // for testing purposes!!
+    }
+
+    public void downloadTxt(String outputPath) {
+        fileDownloader.downloadTxt(filepath, path);
+    }
+    public void downloadBin(String outputPath) {
+        String inputPath = this.filepath;
+        fileDownloader.downloadBin(outputPath, inputPath, path);
     }
 
     public void printPath() {
