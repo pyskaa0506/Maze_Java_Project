@@ -11,7 +11,7 @@ public class FileDownloader {
         saveToFile(destinationPath, listOfCommands);
     }
     public void downloadBin(String destinationPath, String sourcePath, List<Coordinates> path) {
-        copyToFilepath(destinationPath, sourcePath);
+        copyToFile(destinationPath, sourcePath);
         List <Character> listOfDirections = convertCoordinatesToDirections(path);
         List <Character> compressedDirections = compressDirections(listOfDirections);
         //add saving path to binary file
@@ -45,7 +45,7 @@ public class FileDownloader {
         return compressedDirections;
     }
 
-    private void copyToFilepath(String destinationPath, String sourcePath) {
+    private void copyToFile(String destinationPath, String sourcePath) {
         try {
             Files.copy(Paths.get(sourcePath), Paths.get(destinationPath));
         } catch (IOException e) {

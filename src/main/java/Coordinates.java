@@ -1,14 +1,13 @@
     public class Coordinates {
         int x, y;
-
         public Coordinates(int x, int y) {
             this.x = x;
             this.y = y;
         }
-        Coordinates(){
+
+        public Coordinates() {
 
         }
-
 
         public Coordinates getPositionOfLetter(char[][] maze, char letter) {
             for (int i = 0; i < maze.length; i++) {

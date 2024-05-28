@@ -49,8 +49,8 @@ public class Maze {
         fileDownloader.downloadTxt(destinationPath, path);
     }
     public void downloadBin(String destinationPath) {
-        String inputPath = this.filepath;
-        fileDownloader.downloadBin(destinationPath, inputPath, path);
+        String sourcePath = this.filepath;
+        fileDownloader.downloadBin(destinationPath, sourcePath, path);
     }
 
     public void printPath() {
