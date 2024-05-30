@@ -38,17 +38,17 @@ public class Loader {
             int fileId = buffer.getInt(); // 4 bytes
             byte escape = buffer.get(); // 1 byte
             short columns = buffer.getShort(); // 2 bytes
-            short lines = buffer.getShort();
-            short entryX = buffer.getShort();
-            short entryY = buffer.getShort();
-            short exitX = buffer.getShort();
-            short exitY = buffer.getShort();
+            short lines = buffer.getShort(); //2
+            short entryX = buffer.getShort(); //2
+            short entryY = buffer.getShort(); //2
+            short exitX = buffer.getShort(); //2
+            short exitY = buffer.getShort(); //2
             buffer.position(buffer.position() + 12);
-            int counter = buffer.getInt();
-            int solutionOffset = buffer.getInt();
-            byte separator = buffer.get();
-            byte wall = buffer.get();
-            byte path = buffer.get();
+            int counter = buffer.getInt(); //4
+            int solutionOffset = buffer.getInt(); //4
+            byte separator = buffer.get(); //1
+            byte wall = buffer.get(); //1
+            byte path = buffer.get(); //1
 
             System.out.printf("File ID: 0x%08X%n", fileId);
             System.out.printf("Escape: 0x%02X%n", escape);

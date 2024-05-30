@@ -27,22 +27,19 @@ public class Maze {
         exit = new Coordinates().getPositionOfLetter(maze, 'K');
         new Coordinates().stripMazeOfLetter(maze, 'P');
         new Coordinates().stripMazeOfLetter(maze, 'K');
-
-        System.out.println("Entrance: " + entrance.x + " " + entrance.y);
-        System.out.println("Exit: " + exit.x + " " + exit.y);
         return true;
     }
 
     public void solve() {
         path = solver.solve(maze, entrance, exit);
         if (path == null) {
-            System.out.println("No path found");
+            MessageUtils.ErrorMessage("No path found");
         }
         for (Coordinates c : path) {
             maze[c.x][c.y] = '#';
         }
 //        fileDownloader.downloadTxt("src/main/resources/PlaceholderFolder/CommandPath.txt", path); // for testing purposes, feel free to delete it when downloading will be connected properly to the GUI
-//        fileDownloader.downloadBin("src/main/resources/PlaceholderFolder/CommandPath.bin", filepath, path); //not finished yet
+//        fileDownloader.downloadBin("src/main/resources/PlaceholderFolder/CommandPath2.bin", filepath, path); // -||-
     }
 
     public void downloadTxt(String destinationPath) {
@@ -53,27 +50,8 @@ public class Maze {
         fileDownloader.downloadBin(destinationPath, sourcePath, path);
     }
 
-    public void printPath() {
-        for (Coordinates c : path) {
-            System.out.println(c.x + " " + c.y);
-        }
-    }
-
-    public void printMaze() {
-        for (char[] chars : maze) {
-            for (char aChar : chars) {
-                System.out.print(aChar);
-            }
-            System.out.println();
-        }
-    }
-
     public char[][] getMaze() {
         return maze;
-    }
-
-    public List<Coordinates> getPath() {
-        return path;
     }
 
     public void removePath() {
@@ -102,13 +80,4 @@ public class Maze {
     public void setExit(Coordinates exit) {
         this.exit = exit;
     }
-
-    public Coordinates getEntrance() {
-        return entrance;
-    }
-
-    public Coordinates getExit() {
-        return exit;
-    }
-
 }
