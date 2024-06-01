@@ -70,13 +70,6 @@ public class MainFrame {
             }
         });
 
-        /*
-        Always shows the scroll bars, even if they are not needed (e.g. a 5*5 maze);
-        generally optional
-        ScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        ScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-         */
-
         ShowMaze.addActionListener(e -> {
             render = new Render(maze.getMaze());
             ScrollPane.setViewportView(render);
@@ -107,6 +100,9 @@ public class MainFrame {
                     }
                 }
             });
+            SolveMaze.setEnabled(true);
+            ChangeP.setEnabled(true);
+            ChangeK.setEnabled(true);
         });
 
         SolveMaze.addActionListener(e -> {
@@ -271,15 +267,12 @@ public class MainFrame {
 
     private void enableButtons(){
         ShowMaze.setEnabled(true);
-        SolveMaze.setEnabled(true);
         BCPalette.setEnabled(true);
         MCPalette.setEnabled(true);
         SCPalette.setEnabled(true);
         BCField.setEnabled(true);
         MCField.setEnabled(true);
         SCField.setEnabled(true);
-        ChangeP.setEnabled(true);
-        ChangeK.setEnabled(true);
         downloadMaze.setEnabled(true);
         downloadSolved.setEnabled(true);
     }
