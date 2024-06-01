@@ -1,11 +1,9 @@
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
-import static sun.tools.jconsole.inspector.XDataViewer.dispose;
 
 public class DownloadDialog extends JDialog {
     private JPanel contentPane;
@@ -13,110 +11,99 @@ public class DownloadDialog extends JDialog {
     private JButton binButton;
     private JButton pngButton;
     private JButton cancelButton;
-
-    private Maze maze;
     private boolean isSolved;
+    private Render render;
+    private Maze maze;
 
-    public DownloadDialog(Maze maze, boolean isSolved, boolean allowTxtBin, boolean isBinary) {
-        this.maze = maze;
+    public DownloadDialog(JFrame parent, boolean isSolved, Render render, Maze maze) {
+        super(parent, "Download Maze", true);
         this.isSolved = isSolved;
-
+        this.render = render;
+        this.maze = maze;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(cancelButton);
 
-        txtButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onTxt();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
-        binButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onBin();
-            }
-        });
+        pngButton.addActionListener(e -> handlePngDownload());
+        txtButton.addActionListener(e -> handleTextDownload());
+        binButton.addActionListener(e -> handleBinDownload());
 
-        pngButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onPng();
-            }
-        });
+        configureButtons();
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
-
-        // Hide or show txtButton and binButton based on allowTxtBin and isBinary
-        txtButton.setVisible(isBinary);
-        txtButton.setVisible(allowTxtBin);
-        binButton.setVisible(isBinary);
-        binButton.setVisible(allowTxtBin);
+        setLocationRelativeTo(parent);
     }
 
-    private void onTxt() {
-        JFileChooser fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text file", "txt");
-        fileChooser.setFileFilter(filter);
-        int response = fileChooser.showSaveDialog(null);
-        if (response == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String filepath = file.getAbsolutePath();
-            if (!filepath.endsWith(".txt")) {
-                filepath += ".txt";
-            }
-            maze.downloadTxt(filepath);
-            MessageUtils.SuccessMessage("TXT file saved successfully.");
+    private void configureButtons() {
+        if (isSolved) {
+            txtButton.setEnabled(true);
+            binButton.setEnabled(true);
+        } else {
+            txtButton.setVisible(false);
+            binButton.setVisible(false);
         }
-        dispose();
     }
 
-    private void onBin() {
+    private void handlePngDownload() {
         JFileChooser fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary file", "bin");
-        fileChooser.setFileFilter(filter);
-        int response = fileChooser.showSaveDialog(null);
-        if (response == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String filepath = file.getAbsolutePath();
-            if (!filepath.endsWith(".bin")) {
-                filepath += ".bin";
-            }
-            maze.downloadBin(filepath);
-            MessageUtils.SuccessMessage("BIN file saved successfully.");
-        }
-        dispose();
-    }
+        fileChooser.setDialogTitle("Specify a file to save");
 
-    private void onPng() {
-        JFileChooser fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG file", "png");
-        fileChooser.setFileFilter(filter);
-        int response = fileChooser.showSaveDialog(null);
-        if (response == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String filepath = file.getAbsolutePath();
-            if (!filepath.endsWith(".png")) {
-                filepath += ".png";
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.toLowerCase().endsWith(".png")) {
+                filePath += ".png";
             }
             try {
                 if (isSolved) {
-                    maze.downloadPng(filepath, true);
+                    render.saveSolvedAsImage(filePath);
                 } else {
-                    maze.removePath();
-                    maze.downloadPng(filepath, false);
+                    render.saveMazeAsImage(filePath);
                 }
-                MessageUtils.SuccessMessage("PNG file saved successfully.");
-            } catch (IOException ioException) {
-                MessageUtils.ErrorMessage("Error saving PNG file.");
+                MessageUtils.SuccessMessage("File saved successfully!");
+            } catch (IOException ex) {
+                MessageUtils.ErrorMessage("Failed to save the file: " + ex.getMessage());
             }
+            dispose();
         }
-        dispose();
+    }
+
+
+    private void handleTextDownload() {
+        JFileChooser fileChooser = new JFileChooser(".");
+        fileChooser.setDialogTitle("Specify a file to save");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.toLowerCase().endsWith(".txt")) {
+                filePath += ".txt";
+            }
+            maze.downloadTxt(filePath);
+            MessageUtils.SuccessMessage("File saved successfully!");
+            dispose();
+        }
+    }
+
+    private void handleBinDownload() {
+        JFileChooser fileChooser = new JFileChooser(".");
+        fileChooser.setDialogTitle("Specify a file to save");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.toLowerCase().endsWith(".bin")) {
+                filePath += ".bin";
+            }
+            maze.downloadBin(filePath);
+            MessageUtils.SuccessMessage("File saved successfully!");
+            dispose();
+        }
     }
 
     private void onCancel() {

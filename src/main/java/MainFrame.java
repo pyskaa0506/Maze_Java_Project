@@ -58,7 +58,7 @@ public class MainFrame {
                 String fileType = isBinary ? "binary" : "text";
 
                 if (isBinary || filepath.endsWith(".txt")) {
-                    if (maze.load(filepath)){
+                    if (maze.load(filepath)) {
                         MessageUtils.SuccessMessage("The " + fileType + " file was successfully loaded.");
                         enableButtons();
                     } else {
@@ -82,9 +82,9 @@ public class MainFrame {
 
             render.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e){
-                    int x = e.getY()/render.getCell();
-                    int y = e.getX()/render.getCell();
+                public void mouseClicked(MouseEvent e) {
+                    int x = e.getY() / render.getCell();
+                    int y = e.getX() / render.getCell();
                     Coordinates newCoordinate = new Coordinates(x, y);
                     if (changeEntrance)
                     {
@@ -121,7 +121,11 @@ public class MainFrame {
         MCText.setEditable(false);
         SCText.setEditable(false);
 
-        downloadMaze.addActionListener(e -> openDownloadDialog(false));
+        downloadMaze.addActionListener(e -> {
+            maze.removePath();
+            openDownloadDialog(false);
+
+        });
         downloadSolved.addActionListener(e -> openDownloadDialog(true));
 
         BCPalette.setText("Color palette");
@@ -131,7 +135,7 @@ public class MainFrame {
             Color initialColor = render != null ? render.getBackgroundColor() : Color.WHITE;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
             BCPalette.setBackground(color);
-            if (color != null){
+            if (color != null) {
                 BCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
                 if (render != null) {
                     render.setBackgroundColor(color);
@@ -146,7 +150,7 @@ public class MainFrame {
             Color initialColor = render != null ? render.getMazeColor() : Color.BLACK;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
             MCPalette.setBackground(color);
-            if (color != null){
+            if (color != null) {
                 MCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
                 if (render != null) {
                     render.setMazeColor(color);
@@ -161,7 +165,7 @@ public class MainFrame {
             Color initialColor = render != null ? render.getSolveColor() : Color.BLACK;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
             SCPalette.setBackground(color);
-            if (color != null){
+            if (color != null) {
                 SCField.setText(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
                 if (render != null) {
                     render.setSolveColor(color);
@@ -174,12 +178,11 @@ public class MainFrame {
             public void focusLost(FocusEvent e) {
                 try {
                     Color color = Color.decode(BCField.getText());
-                    if (render != null ){
+                    if (render != null) {
                         render.setBackgroundColor(color);
                         render.repaint();
                     }
-                }
-                catch (NumberFormatException exep){
+                } catch (NumberFormatException exep) {
                     MessageUtils.ErrorMessage("Invalid color code");
                 }
             }
@@ -190,12 +193,11 @@ public class MainFrame {
             public void focusLost(FocusEvent e) {
                 try {
                     Color color = Color.decode(MCField.getText());
-                    if (render != null ){
+                    if (render != null) {
                         render.setMazeColor(color);
                         render.repaint();
                     }
-                }
-                catch (NumberFormatException exep){
+                } catch (NumberFormatException exep) {
                     MessageUtils.ErrorMessage("Invalid color code");
                 }
             }
@@ -206,12 +208,11 @@ public class MainFrame {
             public void focusLost(FocusEvent e) {
                 try {
                     Color color = Color.decode(SCField.getText());
-                    if (render != null ){
+                    if (render != null) {
                         render.setSolveColor(color);
                         render.repaint();
                     }
-                }
-                catch (NumberFormatException exep){
+                } catch (NumberFormatException exep) {
                     MessageUtils.ErrorMessage("Invalid color code");
                 }
             }
@@ -230,27 +231,27 @@ public class MainFrame {
 
     private void applyColors() {
         try {
-            if(!BCField.getText().isEmpty()) {
+            if (!BCField.getText().isEmpty()) {
                 Color backgroundColor = Color.decode(BCField.getText());
                 render.setBackgroundColor(backgroundColor);
                 render.repaint();
             }
-            if(!MCField.getText().isEmpty()) {
+            if (!MCField.getText().isEmpty()) {
                 Color mazeColor = Color.decode(MCField.getText());
                 render.setMazeColor(mazeColor);
                 render.repaint();
             }
-            if(!SCField.getText().isEmpty()) {
-                    Color solveColor = Color.decode(SCField.getText());
-                    render.setSolveColor(solveColor);
-                    render.repaint();
+            if (!SCField.getText().isEmpty()) {
+                Color solveColor = Color.decode(SCField.getText());
+                render.setSolveColor(solveColor);
+                render.repaint();
             }
         } catch (NumberFormatException e) {
             MessageUtils.ErrorMessage("Invalid color code in one of the fields.");
         }
     }
 
-    private void disableButtons(){
+    private void disableButtons() {
         ShowMaze.setEnabled(false);
         SolveMaze.setEnabled(false);
         BCPalette.setEnabled(false);
@@ -265,7 +266,7 @@ public class MainFrame {
         downloadSolved.setEnabled(false);
     }
 
-    private void enableButtons(){
+    private void enableButtons() {
         ShowMaze.setEnabled(true);
         BCPalette.setEnabled(true);
         MCPalette.setEnabled(true);
@@ -278,11 +279,8 @@ public class MainFrame {
     }
 
     private void openDownloadDialog(boolean isSolved) {
-        boolean isBinary = maze.isBinary();
-        boolean allowTxtBin = isSolved ? true : false;
-        applyColors();
-        DownloadDialog dialog = new DownloadDialog(maze, isSolved, allowTxtBin, isBinary);
-        dialog.setLocationRelativeTo(null);
+        DownloadDialog dialog = new DownloadDialog(null, isSolved, render, maze);
         dialog.setVisible(true);
     }
+
 }
