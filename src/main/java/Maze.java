@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.List;
 
 public class Maze {
@@ -38,8 +39,6 @@ public class Maze {
         for (Coordinates c : path) {
             maze[c.x][c.y] = '#';
         }
-//        fileDownloader.downloadTxt("src/main/resources/PlaceholderFolder/CommandPath.txt", path); // for testing purposes, feel free to delete it when downloading will be connected properly to the GUI
-//        fileDownloader.downloadBin("src/main/resources/PlaceholderFolder/CommandPath2.bin", filepath, path); // -||-
     }
 
     public void downloadTxt(String destinationPath) {
@@ -80,4 +79,15 @@ public class Maze {
     public void setExit(Coordinates exit) {
         this.exit = exit;
     }
+
+    public void downloadPng(String destinationPath, boolean solved) throws IOException, IOException {
+        Render render = new Render(maze);
+        if (solved && path != null) {
+            for (Coordinates c : path) {
+                maze[c.x][c.y] = '#';
+            }
+        }
+        render.saveImage(destinationPath, solved);
+    }
+
 }

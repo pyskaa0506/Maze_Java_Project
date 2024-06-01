@@ -72,7 +72,7 @@ public class FileDownloader {
             raf.seek(newEndPos);
             raf.write(firstFourBytes);
 
-            MessageUtils.SuccessMessage("File saved successfully");
+            //MessageUtils.SuccessMessage("File saved successfully");
 
         } catch (FileNotFoundException e) {
             MessageUtils.ErrorMessage("File not found: " + e.getMessage());
@@ -148,7 +148,7 @@ public class FileDownloader {
                 count++;
             }
             Files.write(Paths.get(destinationPath), listOfCommands);
-            MessageUtils.SuccessMessage("File saved successfully");
+            //MessageUtils.SuccessMessage("File saved successfully");
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file: " + e.getMessage());
         }

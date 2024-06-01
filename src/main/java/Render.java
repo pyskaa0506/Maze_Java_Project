@@ -68,9 +68,9 @@ public class Render extends JPanel {
         repaint();
     }
 
-    private void saveImage(String filepath, boolean solved) throws IOException {
-        int width = maze[0].length*getCell();
-        int height = maze.length*getCell();
+    public void saveImage(String filepath, boolean solved) throws IOException {
+        int width = maze[0].length * getCell();
+        int height = maze.length * getCell();
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = image.createGraphics();
         paintComponent(graphics2D);

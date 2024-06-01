@@ -109,7 +109,6 @@ public class MainFrame {
             });
         });
 
-
         SolveMaze.addActionListener(e -> {
             maze.removePath();
             maze.solve();
@@ -126,50 +125,8 @@ public class MainFrame {
         MCText.setEditable(false);
         SCText.setEditable(false);
 
-        downloadMaze.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser(".");
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("png image", "png");
-            fileChooser.setFileFilter(filter);
-            int response = fileChooser.showSaveDialog(null);
-            if (response == JFileChooser.APPROVE_OPTION){
-                File file = fileChooser.getSelectedFile();
-                String filepath = file.getAbsolutePath();
-                if (!filepath.endsWith("png")){
-                    filepath += ".png";
-                }
-                try {
-                    maze.removePath();
-                    render.setMaze(maze.getMaze());
-                    render.saveMazeAsImage(filepath);
-                    maze.restorePath();
-                    render.setMaze(maze.getMaze());
-                    render.repaint();
-                    MessageUtils.SuccessMessage("Maze image saved.");
-                } catch (IOException ex) {
-                    MessageUtils.ErrorMessage("Failed to save image.");
-                }
-            }
-        });
-
-        downloadSolved.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser(".");
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
-            fileChooser.setFileFilter(filter);
-            int response = fileChooser.showSaveDialog(null);
-            if (response == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                String filePath = file.getAbsolutePath();
-                if (!filePath.endsWith(".png")) {
-                    filePath += ".png";
-                }
-                try {
-                    render.saveSolvedAsImage(filePath);
-                    MessageUtils.SuccessMessage("Solved maze image saved successfully.");
-                } catch (IOException ex) {
-                    MessageUtils.ErrorMessage("Failed to save solved maze image.");
-                }
-            }
-        });
+        downloadMaze.addActionListener(e -> openDownloadDialog(false, false));
+        downloadSolved.addActionListener(e -> openDownloadDialog(true, true));
 
         BCPalette.setText("Color palette");
         BCPalette.setBackground(Color.WHITE);
@@ -327,4 +284,10 @@ public class MainFrame {
         downloadSolved.setEnabled(true);
     }
 
+    private void openDownloadDialog(boolean isSolved, boolean allowTxtBin) {
+        DownloadDialog dialog = new DownloadDialog(maze, isSolved, allowTxtBin);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+    }
 }
