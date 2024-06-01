@@ -54,7 +54,7 @@ public class MainFrame {
             if (response == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 String filepath = file.getAbsolutePath();
-                boolean isBinary = Loader.isBinary(filepath); //changed isBinary to static, so it can be called without creating an instance of Loader
+                boolean isBinary = Loader.isBinary(filepath);
                 String fileType = isBinary ? "binary" : "text";
 
                 if (isBinary || filepath.endsWith(".txt")) {
@@ -121,8 +121,8 @@ public class MainFrame {
         MCText.setEditable(false);
         SCText.setEditable(false);
 
-        downloadMaze.addActionListener(e -> openDownloadDialog(false, false));
-        downloadSolved.addActionListener(e -> openDownloadDialog(true, true));
+        downloadMaze.addActionListener(e -> openDownloadDialog(false));
+        downloadSolved.addActionListener(e -> openDownloadDialog(true));
 
         BCPalette.setText("Color palette");
         BCPalette.setBackground(Color.WHITE);
@@ -277,10 +277,11 @@ public class MainFrame {
         downloadSolved.setEnabled(true);
     }
 
-    private void openDownloadDialog(boolean isSolved, boolean allowTxtBin) {
-        DownloadDialog dialog = new DownloadDialog(maze, isSolved, allowTxtBin);
+    private void openDownloadDialog(boolean isSolved) {
+        boolean isBinary = maze.isBinary();
+        boolean allowTxtBin = isSolved ? true : false;
+        DownloadDialog dialog = new DownloadDialog(maze, isSolved, allowTxtBin, isBinary);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
-
     }
 }

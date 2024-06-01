@@ -6,6 +6,7 @@ public class Maze {
     private char[][] originalMaze;
     private List<Coordinates> path;
     private String filepath;
+    private boolean isBinary;
     Coordinates entrance;
     Coordinates exit;
     Loader loader;
@@ -18,8 +19,13 @@ public class Maze {
         fileDownloader = new FileDownloader();
     }
 
+    public boolean isBinary() {
+        return isBinary;
+    }
+
     public boolean load(String filepath) {
         this.filepath = filepath;
+        this.isBinary = Loader.isBinary(filepath);
         maze = loader.loadMaze(filepath);
         if (maze == null) {
             return false;

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import static sun.tools.jconsole.inspector.XDataViewer.dispose;
+
 public class DownloadDialog extends JDialog {
     private JPanel contentPane;
     private JButton txtButton;
@@ -15,7 +17,7 @@ public class DownloadDialog extends JDialog {
     private Maze maze;
     private boolean isSolved;
 
-    public DownloadDialog(Maze maze, boolean isSolved, boolean allowTxtBin) {
+    public DownloadDialog(Maze maze, boolean isSolved, boolean allowTxtBin, boolean isBinary) {
         this.maze = maze;
         this.isSolved = isSolved;
 
@@ -50,8 +52,10 @@ public class DownloadDialog extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
 
-        // Hide txtButton and binButton if allowTxtBin is false
+        // Hide or show txtButton and binButton based on allowTxtBin and isBinary
+        txtButton.setVisible(isBinary);
         txtButton.setVisible(allowTxtBin);
+        binButton.setVisible(isBinary);
         binButton.setVisible(allowTxtBin);
     }
 
@@ -104,7 +108,6 @@ public class DownloadDialog extends JDialog {
                 if (isSolved) {
                     maze.downloadPng(filepath, true);
                 } else {
-                    maze.removePath();
                     maze.downloadPng(filepath, false);
                 }
                 MessageUtils.SuccessMessage("PNG file saved successfully.");
@@ -118,5 +121,4 @@ public class DownloadDialog extends JDialog {
     private void onCancel() {
         dispose();
     }
-
 }
