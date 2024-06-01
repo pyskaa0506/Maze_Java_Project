@@ -55,12 +55,17 @@ public class Maze {
 
     public void removePath() {
         if (path != null && maze != null) {
-            originalMaze = new char[maze.length][];
-            for (int i = 0; i < maze.length; i++) {
+            originalMaze = new char[maze.length][maze[0].length];
+
+            for (int i = 0; i < maze.length;i++) {
                 originalMaze[i] = maze[i].clone();
             }
-            for (Coordinates c : path) {
-                maze[c.x][c.y] = ' ';
+
+            for (Coordinates c : path)
+            {
+                if (c.x >= 0 && c.x < maze.length && c.y >= 0 && c.y < maze[0].length) {
+                    maze[c.x][c.y] = ' ';
+                }
             }
         }
     }

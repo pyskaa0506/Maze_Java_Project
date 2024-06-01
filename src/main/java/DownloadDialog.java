@@ -118,4 +118,5 @@ public class DownloadDialog extends JDialog {
     private void onCancel() {
         dispose();
     }
+
 }
