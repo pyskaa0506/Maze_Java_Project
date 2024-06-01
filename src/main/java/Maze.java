@@ -24,6 +24,7 @@ public class Maze {
     }
 
     public boolean load(String filepath) {
+        reset();
         this.filepath = filepath;
         this.isBinary = Loader.isBinary(filepath);
         maze = loader.loadMaze(filepath);
@@ -59,16 +60,20 @@ public class Maze {
         return maze;
     }
 
+    public void reset() {
+        maze = null;
+        originalMaze = null;
+        path = null;
+        filepath = null;
+        isBinary = false;
+        entrance = null;
+        exit = null;
+    }
+
+
     public void removePath() {
         if (path != null && maze != null) {
-            originalMaze = new char[maze.length][maze[0].length];
-
-            for (int i = 0; i < maze.length;i++) {
-                originalMaze[i] = maze[i].clone();
-            }
-
-            for (Coordinates c : path)
-            {
+            for (Coordinates c : path) {
                 if (c.x >= 0 && c.x < maze.length && c.y >= 0 && c.y < maze[0].length) {
                     maze[c.x][c.y] = ' ';
                 }

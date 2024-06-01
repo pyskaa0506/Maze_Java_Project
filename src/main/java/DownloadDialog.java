@@ -108,6 +108,7 @@ public class DownloadDialog extends JDialog {
                 if (isSolved) {
                     maze.downloadPng(filepath, true);
                 } else {
+                    maze.removePath();
                     maze.downloadPng(filepath, false);
                 }
                 MessageUtils.SuccessMessage("PNG file saved successfully.");

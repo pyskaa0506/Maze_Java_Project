@@ -59,8 +59,8 @@ public class MainFrame {
 
                 if (isBinary || filepath.endsWith(".txt")) {
                     if (maze.load(filepath)){
-                    MessageUtils.SuccessMessage("The " + fileType + " file was successfully loaded.");
-                    enableButtons();
+                        MessageUtils.SuccessMessage("The " + fileType + " file was successfully loaded.");
+                        enableButtons();
                     } else {
                         disableButtons();
                     }
@@ -280,6 +280,7 @@ public class MainFrame {
     private void openDownloadDialog(boolean isSolved) {
         boolean isBinary = maze.isBinary();
         boolean allowTxtBin = isSolved ? true : false;
+        applyColors();
         DownloadDialog dialog = new DownloadDialog(maze, isSolved, allowTxtBin, isBinary);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
