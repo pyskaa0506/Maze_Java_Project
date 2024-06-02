@@ -4,6 +4,7 @@ import java.util.List;
 public class Maze {
     private char[][] maze;
     private char[][] originalMaze;
+    private char[][] solvedMaze;
     private List<Coordinates> path;
     private String filepath;
     private boolean isBinary;
@@ -12,7 +13,6 @@ public class Maze {
     Loader loader;
     Solver solver;
     FileDownloader fileDownloader;
-    private Render render;
 
     Maze() {
         loader = new Loader();
@@ -32,6 +32,7 @@ public class Maze {
         if (maze == null) {
             return false;
         }
+        originalMaze = copyMaze(maze);
         entrance = new Coordinates().getPositionOfLetter(maze, 'P');
         exit = new Coordinates().getPositionOfLetter(maze, 'K');
         new Coordinates().stripMazeOfLetter(maze, 'P');
@@ -40,18 +41,21 @@ public class Maze {
     }
 
     public void solve() {
-        path = solver.solve(maze, entrance, exit);
+        char[][] mazeCopy = copyMaze(maze);
+        path = solver.solve(mazeCopy, entrance, exit);
         if (path == null) {
             MessageUtils.ErrorMessage("No path found");
         }
         for (Coordinates c : path) {
-            maze[c.x][c.y] = '#';
+            mazeCopy[c.x][c.y] = '#';
         }
+        solvedMaze = mazeCopy;
     }
 
     public void downloadTxt(String destinationPath) {
         fileDownloader.downloadTxt(destinationPath, path);
     }
+
     public void downloadBin(String destinationPath) {
         String sourcePath = this.filepath;
         fileDownloader.downloadBin(destinationPath, sourcePath, path);
@@ -61,9 +65,14 @@ public class Maze {
         return maze;
     }
 
+    public char[][] getSolvedMaze() {
+        return solvedMaze;
+    }
+
     public void reset() {
         maze = null;
         originalMaze = null;
+        solvedMaze = null;
         path = null;
         filepath = null;
         isBinary = false;
@@ -71,22 +80,15 @@ public class Maze {
         exit = null;
     }
 
-
-    public void removePath() {
-        if (path != null && maze != null) {
-            for (Coordinates c : path) {
-                if (c.x >= 0 && c.x < maze.length && c.y >= 0 && c.y < maze[0].length) {
-                    maze[c.x][c.y] = ' ';
-                }
-            }
+    private char[][] copyMaze(char[][] source) {
+        if (source == null) {
+            return null;
         }
-    }
-
-    public void restorePath() {
-        if (originalMaze != null) {
-            maze = originalMaze;
-            originalMaze = null;
+        char[][] copy = new char[source.length][];
+        for (int i = 0; i < source.length; i++) {
+            copy[i] = source[i].clone();
         }
+        return copy;
     }
 
     public void setEntrance(Coordinates entrance) {
@@ -97,15 +99,9 @@ public class Maze {
         this.exit = exit;
     }
 
-    public void downloadPng(String destinationPath, boolean solved) throws IOException {
-        Render render = new Render(maze);
-        render.setBackgroundColor(this.render.getBackgroundColor());
-        render.setMazeColor(this.render.getMazeColor());
-        render.setSolveColor(this.render.getSolveColor());
-        render.setEntrance(this.entrance);
-        render.setExit(this.exit);
+    public void saveMazeImage(String destinationPath, boolean solved) throws IOException {
+        Render render = new Render(solved ? getSolvedMaze() : getMaze());
         render.saveImage(destinationPath, solved);
     }
-
 
 }

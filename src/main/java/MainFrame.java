@@ -86,14 +86,11 @@ public class MainFrame {
                     int x = e.getY() / render.getCell();
                     int y = e.getX() / render.getCell();
                     Coordinates newCoordinate = new Coordinates(x, y);
-                    if (changeEntrance)
-                    {
+                    if (changeEntrance) {
                         maze.setEntrance(newCoordinate);
                         render.setEntrance(newCoordinate);
                         changeEntrance = false;
-                    }
-                    else if (changeExit)
-                    {
+                    } else if (changeExit) {
                         maze.setExit(newCoordinate);
                         render.setExit(newCoordinate);
                         changeExit = false;
@@ -106,9 +103,8 @@ public class MainFrame {
         });
 
         SolveMaze.addActionListener(e -> {
-            maze.removePath();
             maze.solve();
-            render.setMaze(maze.getMaze());
+            render.setMaze(maze.getSolvedMaze());
             applyColors();
             ScrollPane.setViewportView(render);
             render.revalidate();
@@ -123,7 +119,6 @@ public class MainFrame {
 
         downloadMaze.addActionListener(e -> {
             openDownloadDialog(false);
-
         });
         downloadSolved.addActionListener(e -> openDownloadDialog(true));
 
@@ -161,7 +156,7 @@ public class MainFrame {
         SCPalette.setBackground(Color.ORANGE);
 
         SCPalette.addActionListener(e -> {
-            Color initialColor = render != null ? render.getSolveColor() : Color.BLACK;
+            Color initialColor = render != null ? render.getSolveColor() : Color.ORANGE;
             Color color = JColorChooser.showDialog(null, "Select a color", initialColor);
             SCPalette.setBackground(color);
             if (color != null) {
@@ -224,8 +219,6 @@ public class MainFrame {
         ChangeK.addActionListener(e -> {
             changeExit = true;
         });
-
-
     }
 
     private void applyColors() {
@@ -247,8 +240,6 @@ public class MainFrame {
         }
         render.repaint();
     }
-
-
 
     private void disableButtons() {
         ShowMaze.setEnabled(false);
@@ -283,5 +274,4 @@ public class MainFrame {
         DownloadDialog dialog = new DownloadDialog(null, isSolved, render, maze, isBinary);
         dialog.setVisible(true);
     }
-
 }

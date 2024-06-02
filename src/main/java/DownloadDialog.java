@@ -38,10 +38,6 @@ public class DownloadDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
-
-
-
-
     private void configureButtons() {
         if (isSolved) {
             txtButton.setEnabled(true);
@@ -64,20 +60,14 @@ public class DownloadDialog extends JDialog {
                 filePath += ".png";
             }
             try {
-                if (isSolved) {
-
-                    render.saveSolvedAsImage(filePath);
-                } else if (!isSolved){
-                    render.saveMazeAsImage(filePath);
-                }
-                MessageUtils.SuccessMessage("File saved successfully!");
+                maze.saveMazeImage(filePath, isSolved);
+                MessageUtils.SuccessMessage("Maze image saved successfully.");
             } catch (IOException ex) {
                 MessageUtils.ErrorMessage("Failed to save the file: " + ex.getMessage());
             }
             dispose();
         }
     }
-
 
     private void handleTextDownload() {
         JFileChooser fileChooser = new JFileChooser(".");
