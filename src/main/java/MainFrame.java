@@ -122,7 +122,6 @@ public class MainFrame {
         SCText.setEditable(false);
 
         downloadMaze.addActionListener(e -> {
-            maze.removePath();
             openDownloadDialog(false);
 
         });
@@ -234,22 +233,22 @@ public class MainFrame {
             if (!BCField.getText().isEmpty()) {
                 Color backgroundColor = Color.decode(BCField.getText());
                 render.setBackgroundColor(backgroundColor);
-                render.repaint();
             }
             if (!MCField.getText().isEmpty()) {
                 Color mazeColor = Color.decode(MCField.getText());
                 render.setMazeColor(mazeColor);
-                render.repaint();
             }
             if (!SCField.getText().isEmpty()) {
                 Color solveColor = Color.decode(SCField.getText());
                 render.setSolveColor(solveColor);
-                render.repaint();
             }
         } catch (NumberFormatException e) {
             MessageUtils.ErrorMessage("Invalid color code in one of the fields.");
         }
+        render.repaint();
     }
+
+
 
     private void disableButtons() {
         ShowMaze.setEnabled(false);
@@ -279,7 +278,9 @@ public class MainFrame {
     }
 
     private void openDownloadDialog(boolean isSolved) {
-        DownloadDialog dialog = new DownloadDialog(null, isSolved, render, maze);
+        applyColors();
+        boolean isBinary = maze.isBinary();
+        DownloadDialog dialog = new DownloadDialog(null, isSolved, render, maze, isBinary);
         dialog.setVisible(true);
     }
 

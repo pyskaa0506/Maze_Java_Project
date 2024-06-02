@@ -15,7 +15,7 @@ public class DownloadDialog extends JDialog {
     private Render render;
     private Maze maze;
 
-    public DownloadDialog(JFrame parent, boolean isSolved, Render render, Maze maze) {
+    public DownloadDialog(JFrame parent, boolean isSolved, Render render, Maze maze, boolean isBinary) {
         super(parent, "Download Maze", true);
         this.isSolved = isSolved;
         this.render = render;
@@ -30,11 +30,17 @@ public class DownloadDialog extends JDialog {
         txtButton.addActionListener(e -> handleTextDownload());
         binButton.addActionListener(e -> handleBinDownload());
 
+        binButton.setVisible(isBinary);
+
         configureButtons();
 
         pack();
         setLocationRelativeTo(parent);
     }
+
+
+
+
 
     private void configureButtons() {
         if (isSolved) {
@@ -59,8 +65,9 @@ public class DownloadDialog extends JDialog {
             }
             try {
                 if (isSolved) {
+
                     render.saveSolvedAsImage(filePath);
-                } else {
+                } else if (!isSolved){
                     render.saveMazeAsImage(filePath);
                 }
                 MessageUtils.SuccessMessage("File saved successfully!");

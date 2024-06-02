@@ -11,7 +11,7 @@ public class Render extends JPanel {
     private Color backgroundColor = Color.WHITE;
     private Color mazeColor = Color.BLACK;
     private Color solveColor = Color.ORANGE;
-
+    private boolean showSolution = false;
     private int cell = 10; // we can change this value to make the maze bigger or smaller;
 
     private Coordinates entrance;
@@ -48,7 +48,7 @@ public class Render extends JPanel {
                         g.fillRect(exit.y*cell, exit.x*cell, cell,cell);
                     }
                 }
-                
+
             }
         }
     }
@@ -69,6 +69,7 @@ public class Render extends JPanel {
     }
 
     public void saveImage(String filepath, boolean solved) throws IOException {
+        showSolution = solved;
         int width = maze[0].length * getCell();
         int height = maze.length * getCell();
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

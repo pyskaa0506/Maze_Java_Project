@@ -12,6 +12,7 @@ public class Maze {
     Loader loader;
     Solver solver;
     FileDownloader fileDownloader;
+    private Render render;
 
     Maze() {
         loader = new Loader();
@@ -96,14 +97,15 @@ public class Maze {
         this.exit = exit;
     }
 
-    public void downloadPng(String destinationPath, boolean solved) throws IOException, IOException {
+    public void downloadPng(String destinationPath, boolean solved) throws IOException {
         Render render = new Render(maze);
-        if (solved && path != null) {
-            for (Coordinates c : path) {
-                maze[c.x][c.y] = '#';
-            }
-        }
+        render.setBackgroundColor(this.render.getBackgroundColor());
+        render.setMazeColor(this.render.getMazeColor());
+        render.setSolveColor(this.render.getSolveColor());
+        render.setEntrance(this.entrance);
+        render.setExit(this.exit);
         render.saveImage(destinationPath, solved);
     }
+
 
 }
