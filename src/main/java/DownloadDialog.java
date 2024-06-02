@@ -60,7 +60,7 @@ public class DownloadDialog extends JDialog {
                 filePath += ".png";
             }
             try {
-                maze.saveMazeImage(filePath, isSolved);
+                maze.saveMazeImage(render, filePath, isSolved);
                 MessageUtils.SuccessMessage("Maze image saved successfully.");
             } catch (IOException ex) {
                 MessageUtils.ErrorMessage("Failed to save the file: " + ex.getMessage());
@@ -68,6 +68,8 @@ public class DownloadDialog extends JDialog {
             dispose();
         }
     }
+
+
 
     private void handleTextDownload() {
         JFileChooser fileChooser = new JFileChooser(".");

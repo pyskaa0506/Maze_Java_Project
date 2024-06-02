@@ -73,7 +73,7 @@ public class MainFrame {
         ShowMaze.addActionListener(e -> {
             render = new Render(maze.getMaze());
             ScrollPane.setViewportView(render);
-            render.setMaze(maze.getMaze());
+            render.setMaze(maze.getMaze(), false);
             ScrollPane.setViewportView(render);
             applyColors();
             render.revalidate();
@@ -104,7 +104,7 @@ public class MainFrame {
 
         SolveMaze.addActionListener(e -> {
             maze.solve();
-            render.setMaze(maze.getSolvedMaze());
+            render.setMaze(maze.getSolvedMaze(), true);
             applyColors();
             ScrollPane.setViewportView(render);
             render.revalidate();
@@ -119,6 +119,7 @@ public class MainFrame {
 
         downloadMaze.addActionListener(e -> {
             openDownloadDialog(false);
+
         });
         downloadSolved.addActionListener(e -> openDownloadDialog(true));
 
@@ -271,6 +272,7 @@ public class MainFrame {
     private void openDownloadDialog(boolean isSolved) {
         applyColors();
         boolean isBinary = maze.isBinary();
+        render.setMaze(isSolved ? maze.getSolvedMaze() : maze.getMaze(), isSolved);
         DownloadDialog dialog = new DownloadDialog(null, isSolved, render, maze, isBinary);
         dialog.setVisible(true);
     }

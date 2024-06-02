@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Maze_JAVA:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Maze_JAVA_jar</output-path>
+    <root id="archive" name="Maze_JAVA.jar">
+      <element id="module-output" name="Maze_JAVA" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/jgoodies/jgoodies-common/1.8.0/jgoodies-common-1.8.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.1.0/annotations-24.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/jgoodies/jgoodies-forms/1.8.0/jgoodies-forms-1.8.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

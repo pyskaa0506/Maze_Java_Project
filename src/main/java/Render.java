@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Render extends JPanel {
     private char[][] maze;
+    private boolean solved;
     private Color backgroundColor = Color.WHITE;
     private Color mazeColor = Color.BLACK;
     private Color solveColor = Color.ORANGE;
@@ -61,13 +62,15 @@ public class Render extends JPanel {
         return super.getPreferredSize();
     }
 
-    public void setMaze(char[][] maze) {
+    public void setMaze(char[][] maze, boolean solved) {
         this.maze = maze;
+        this.solved = solved;
         revalidate();
         repaint();
     }
 
-    public void saveImage(String destinationPath, boolean solved) throws IOException {
+
+    public void saveImage(String destinationPath) throws IOException {
         int width = maze[0].length * cell;
         int height = maze.length * cell;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -77,13 +80,6 @@ public class Render extends JPanel {
         ImageIO.write(image, "png", new File(destinationPath));
     }
 
-    public void saveMazeAsImage(String filepath) throws IOException{
-        saveImage(filepath, false);
-    }
-
-    public void saveSolvedAsImage(String filepath) throws IOException {
-        saveImage(filepath, true);
-    }
 
     public void setBackgroundColor(Color backgroundColor){
         this.backgroundColor = backgroundColor;

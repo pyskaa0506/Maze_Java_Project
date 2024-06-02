@@ -99,9 +99,11 @@ public class Maze {
         this.exit = exit;
     }
 
-    public void saveMazeImage(String destinationPath, boolean solved) throws IOException {
-        Render render = new Render(solved ? getSolvedMaze() : getMaze());
-        render.saveImage(destinationPath, solved);
+    public void saveMazeImage(Render render, String destinationPath, boolean solved) throws IOException {
+        render.setMaze(solved ? getSolvedMaze() : getMaze(), solved);
+        render.saveImage(destinationPath);
     }
+
+
 
 }
