@@ -4,8 +4,8 @@
     <rowspec value="center:max(d;4px):noGrow"/>
     <rowspec value="top:2dlu:noGrow"/>
     <rowspec value="center:d:noGrow"/>
-    <rowspec value="top:6dlu:noGrow"/>
-    <rowspec value="center:54px:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:130px:noGrow"/>
     <rowspec value="center:max(d;4px):noGrow"/>
     <rowspec value="top:4dlu:noGrow"/>
     <rowspec value="top:8dlu:noGrow"/>
@@ -28,7 +28,7 @@
     <rowspec value="center:8px:noGrow"/>
     <rowspec value="center:250px:grow"/>
     <rowspec value="top:8dlu:noGrow"/>
-    <rowspec value="center:18px:noGrow"/>
+    <rowspec value="center:9px:noGrow"/>
     <colspec value="fill:16px:noGrow"/>
     <colspec value="left:4dlu:noGrow"/>
     <colspec value="fill:150px:grow"/>
@@ -40,7 +40,7 @@
     <colspec value="fill:150px:noGrow"/>
     <colspec value="left:12dlu:noGrow"/>
     <constraints>
-      <xy x="20" y="20" width="744" height="939"/>
+      <xy x="20" y="20" width="906" height="939"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -60,7 +60,7 @@
           <forms/>
         </constraints>
         <properties>
-          <text value="Select the colours below to choose a colour from the palette. "/>
+          <text value="You can change the color of the maze by typing the color code into the box below, or select a color by clicking on the button."/>
         </properties>
       </component>
       <component id="7153d" class="javax.swing.JTextArea" binding="BCText">
@@ -216,18 +216,6 @@
           <text value="Change exit"/>
         </properties>
       </component>
-      <component id="42283" class="javax.swing.JTextArea" binding="howToUseATextArea" default-binding="true">
-        <constraints>
-          <grid row="4" column="2" row-span="1" col-span="7" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-          <forms defaultalign-horz="false" defaultalign-vert="false"/>
-        </constraints>
-        <properties>
-          <background color="-1118482"/>
-          <text value="/* how to use a programme*/&#10;// można dodać info o arlorytmach (link na wiki)&#10;// link na github"/>
-        </properties>
-      </component>
       <component id="b1049" class="javax.swing.JSeparator">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="7" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -251,6 +239,18 @@
         <border type="none"/>
         <children/>
       </scrollpane>
+      <component id="42283" class="javax.swing.JTextArea" binding="howToUseATextArea" default-binding="true">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="7" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <background color="-1118482"/>
+          <text value="Instructions for using the programme:&#10;1. Select the maze file to load.&#10;2. Click &quot;Solve&quot; to find the solution.&#10;3. Optionally - change the color of the maze or the entry and exit points using the corresponding buttons &#10;4. Use the &quot;Download&quot; buttons to save the maze in the format of your choice.&#10;Algorithm:&#10;- Dijkstra's algorithm was used to find the path&#10;GitHub:https://github.com/pyskaa0506/Maze_Java_Project"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
